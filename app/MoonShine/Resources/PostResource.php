@@ -57,11 +57,12 @@ class PostResource extends Resource
                                ])->hideOnIndex()->fullPage(),
                            ]),
                        ])->columnSpan(6),
-                Column::make([
-                    Block::make([
-                        SwitchBoolean::make('Опубликовать пост', 'is_published')->default(false)
-                    ])
-                ])->columnSpan(12),
+
+                        SwitchBoolean::make('Опубликовать пост', 'is_published')
+                            ->default(false)
+                            ->showOnCreate(false)
+                            ->showOnDetail(false)
+                            ->showOnUpdate(false),
             ]),
         ];
 	}
