@@ -22,6 +22,7 @@ class BotController extends Controller
         $bot->onCommand('start', function (Nutgram $bot) {
             $bot->sendMessage('Hello');
         });
+
         $bot->run();
     }
 }
