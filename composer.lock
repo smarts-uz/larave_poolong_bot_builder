@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "937e0462a877b5f75a0e172baa480383",
+    "content-hash": "ac06c63da7f593044a05784451e54cc8",
     "packages": [
         {
             "name": "brick/math",
@@ -2109,6 +2109,71 @@
             "time": "2023-06-21T08:46:11+00:00"
         },
         {
+            "name": "moonshine/ckeditor",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moonshine-software/ckeditor.git",
+                "reference": "343008ff14542eef07c0fbf25edc11a0320373f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/moonshine-software/ckeditor/zipball/343008ff14542eef07c0fbf25edc11a0320373f9",
+                "reference": "343008ff14542eef07c0fbf25edc11a0320373f9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": "^8.0|^8.1|^8.2"
+            },
+            "conflict": {
+                "moonshine/moonshine": "<1.52"
+            },
+            "require-dev": {
+                "brianium/paratest": "^6.8",
+                "mockery/mockery": "^1.4.4",
+                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0|^8.0",
+                "phpstan/phpstan": "^1.4.7",
+                "phpunit/phpunit": "^9.5.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MoonShine\\CKEditor\\Providers\\CKEditorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MoonShine\\CKEditor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Danil Shutsky",
+                    "email": "info@cutcode.ru",
+                    "homepage": "https://cutcode.dev"
+                }
+            ],
+            "description": "CKEditor for MoonShine",
+            "homepage": "https://moonshine.cutcode.dev",
+            "keywords": [
+                "CKEditor",
+                "moonshine"
+            ],
+            "support": {
+                "issues": "https://github.com/moonshine-software/ckeditor/issues",
+                "source": "https://github.com/moonshine-software/ckeditor"
+            },
+            "time": "2023-04-10T07:51:11+00:00"
+        },
+        {
             "name": "moonshine/moonshine",
             "version": "1.61.3",
             "source": {
@@ -2191,6 +2256,71 @@
                 }
             ],
             "time": "2023-08-14T07:51:41+00:00"
+        },
+        {
+            "name": "moonshine/trix",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moonshine-software/trix.git",
+                "reference": "37679e776100121c6dea94a5982eebf5d3d89841"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/moonshine-software/trix/zipball/37679e776100121c6dea94a5982eebf5d3d89841",
+                "reference": "37679e776100121c6dea94a5982eebf5d3d89841",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": "^8.0|^8.1|^8.2"
+            },
+            "conflict": {
+                "moonshine/moonshine": "<1.52"
+            },
+            "require-dev": {
+                "brianium/paratest": "^6.8",
+                "mockery/mockery": "^1.4.4",
+                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0|^8.0",
+                "phpstan/phpstan": "^1.4.7",
+                "phpunit/phpunit": "^9.5.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MoonShine\\Trix\\Providers\\TrixServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MoonShine\\Trix\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Danil Shutsky",
+                    "email": "info@cutcode.ru",
+                    "homepage": "https://cutcode.dev"
+                }
+            ],
+            "description": "Trix editor for MoonShine",
+            "homepage": "https://moonshine.cutcode.dev",
+            "keywords": [
+                "moonshine",
+                "trix"
+            ],
+            "support": {
+                "issues": "https://github.com/moonshine-software/trix/issues",
+                "source": "https://github.com/moonshine-software/trix"
+            },
+            "time": "2023-04-09T21:36:59+00:00"
         },
         {
             "name": "nesbot/carbon",

@@ -52,6 +52,9 @@ return [
         'file_manager' => false, // or 'laravel-filemanager' prefix for lfm
         'token' => env('MOONSHINE_TINYMCE_TOKEN', ''),
         'version' => env('MOONSHINE_TINYMCE_VERSION', '6'),
+        'forced_root_block' => '',
+        'force_br_newlines' => true,
+        'force_p_newlines' => false,
     ],
     'socialite' => [
         // 'driver' => 'path_to_image_for_button'

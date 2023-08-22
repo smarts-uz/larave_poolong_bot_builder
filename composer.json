@@ -11,7 +11,9 @@
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.16",
         "laravel/tinker": "^2.8",
+        "moonshine/ckeditor": "^1.0",
         "moonshine/moonshine": "^1.61",
+        "moonshine/trix": "^1.0",
         "nutgram/nutgram": "^3.20",
         "symfony/cache": "^6.3"
     },

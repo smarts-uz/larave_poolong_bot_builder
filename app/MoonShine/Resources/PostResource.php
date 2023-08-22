@@ -5,6 +5,7 @@ namespace App\MoonShine\Resources;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Post;
 
+use MoonShine\CKEditor\Fields\CKEditor;
 use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Grid;
@@ -19,6 +20,7 @@ use MoonShine\Fields\TinyMce;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
+use MoonShine\Trix\Fields\Trix;
 
 class PostResource extends Resource
 {
@@ -33,7 +35,7 @@ class PostResource extends Resource
                Column::make([
                    Block::make('Основная информация',[
                        Text::make('Заголовок','title'),
-                       TinyMce::make('Контент','content')->required()->toolbar('undo redo | bold italic strike underline') ,
+                       Textarea::make('Контент','content'),
                        BelongsTo::make('Company','company_id')->searchable(),
                    ]),
                ]),
@@ -45,7 +47,20 @@ class PostResource extends Resource
                                        ->dir('/media')
                                        ->keepOriginalFileName()
                                        ->removable()
-                                       ->allowedExtensions(['jpg', 'gif', 'png']),
+                                       ->allowedExtensions([
+                                           'jpg',
+                                           'jpeg',
+                                           'png',
+                                           'mp4',
+                                           'avi',
+                                           'mov',
+                                           'mkv',
+                                           'wmv',
+                                           'mpeg',
+                                           'mpg',
+                                           '3gp',
+                                           'webm',
+                                       ]),
                                ])->hideOnIndex()->fullPage(),
                            ]),
                        ])->columnSpan(6),

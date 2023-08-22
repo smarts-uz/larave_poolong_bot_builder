@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Post;
-use App\Service\TelegramBotService;
+use App\Services\TelegramBotService;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\RunningMode\Webhook;
 
@@ -11,26 +11,29 @@ class PostObserver
 {
     public function created(Post $post): void
     {
-        dd($post->is_published);
+
     }
 
 
-    public function updated(Post $post): ?Post
+    public function updated(Post $post): void
     {
-        if ($post->isDirty('is_published') && $post->is_published == true) {
-            $botService = new TelegramBotService();
-            $cache = $botService->setCache();
+        $botService = new TelegramBotService();
+        $bot = new Nutgram($_ENV['TELEGRAM_TOKEN']);
 
-            $bot = new Nutgram($_ENV['TELEGRAM_TOKEN'],
-                ['cache' => $cache]);
-
-            $bot->setRunningMode(Webhook::class);
-
-            $bot->sendMessage($post->content,['chat_id' => 3182829]);
-
-            $bot->run();
+        if ($post->isDirty('is_published')) {
+            if ($post->is_published == true) {
+                $telegramMessageId = $botService->botSendMessage($bot, $post);
+                if (!is_null($telegramMessageId)) {
+                    $post->telegram_message_id = $telegramMessageId;
+                    $post->saveQuietly();
+                }
+            } else {
+                $botService->botDeleteMessage($bot, $post);
+            }
         }
-        return null;
+        if ($post->isDirty('telegram_message_id')) {
+            echo 'Done';
+        }
     }
 
     public function deleted(Post $post): void
