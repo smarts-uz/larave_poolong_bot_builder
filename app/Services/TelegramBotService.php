@@ -47,6 +47,7 @@ class TelegramBotService
                     ]);
                     $this->fileCheckService->closeFile($photo);
                     $this->saveChatId($post,$message);
+
                 }
                 break;
             case 'video':

@@ -9,11 +9,12 @@ class TelegramBotButtonCreator
 {
     public function botCreateInlineButtons($post)
     {
+
         $buttons = [];
         $keyboards = [];
         foreach ($post->button as $item) {
 
-            $button = InlineKeyboardButton::make($item->title,callback_data: $item->title);
+            $button = InlineKeyboardButton::make($item->title . " ({$item->count})",callback_data: $item->title);
 
             $buttons[] = $button;
             $keyboards[] = $buttons;
