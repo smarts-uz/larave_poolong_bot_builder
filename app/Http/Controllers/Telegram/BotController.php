@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Services\TelegramBotButtonCreator;
 use App\Services\TelegramBotService;
+use App\Telegram\Middleware\TelegramBotCollectChat;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\RunningMode\Webhook;
@@ -20,7 +21,13 @@ class BotController extends Controller
         $bot = new Nutgram($_ENV['TELEGRAM_TOKEN'],
             ['cache' => $cache]);
 
+        try {
+            $bot->middleware(TelegramBotCollectChat::class);
+        } catch (\Exception $exception) {
+            Debugbar::info($exception);
+        }
         $bot->setRunningMode(Webhook::class);
+
 
         $bot->onCommand('start', function (Nutgram $bot) {
             $bot->sendMessage('Hello');
@@ -31,7 +38,8 @@ class BotController extends Controller
 
             $messageId = $bot->callbackQuery()->message->message_id;
             $bot->answerCallbackQuery([
-                'text' => $messageId
+                'text' => $messageId,
+                'cache_time' => 1
             ]);
             try {
                 $post = Post::where('telegram_message_id', $messageId)->first();
