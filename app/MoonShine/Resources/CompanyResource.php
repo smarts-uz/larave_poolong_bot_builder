@@ -2,9 +2,12 @@
 
 namespace App\MoonShine\Resources;
 
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Company;
 
+use MoonShine\Dashboard\DashboardBlock;
+use MoonShine\Dashboard\ResourcePreview;
 use MoonShine\Decorations\Block;
 use MoonShine\Fields\BelongsTo;
 use MoonShine\Fields\Date;

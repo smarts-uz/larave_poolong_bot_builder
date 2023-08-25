@@ -25,11 +25,11 @@ class BotController extends Controller
         $bot = new Nutgram($_ENV['TELEGRAM_TOKEN'],
             ['cache' => $cache]);
 
-//        try {
-//            $bot->middleware(TelegramBotCollectChat::class);
-//        } catch (\Exception $exception) {
-//            Debugbar::info($exception);
-//        }
+        try {
+            $bot->middleware(TelegramBotCollectChat::class);
+        } catch (\Exception $exception) {
+            Debugbar::info($exception);
+        }
         $bot->setRunningMode(Webhook::class);
 
 
