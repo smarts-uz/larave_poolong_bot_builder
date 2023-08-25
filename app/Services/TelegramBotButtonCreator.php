@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Post;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 
@@ -25,5 +26,10 @@ class TelegramBotButtonCreator
             $keyboard->addRow(...$k);
         }
         return $keyboard;
+    }
+
+    public function findPost($messageId)
+    {
+        return Post::where('telegram_message_id', $messageId)->first();
     }
 }

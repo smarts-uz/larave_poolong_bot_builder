@@ -17,4 +17,8 @@ class BotButton extends Model
     {
         return $this->belongsTo(Post::class);
     }
+    public function posts()
+    {
+        return $this->belongsToMany(User::class, 'post_users','button_id','user_id');
+    }
 }
