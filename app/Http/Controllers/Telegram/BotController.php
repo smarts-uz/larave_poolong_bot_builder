@@ -54,7 +54,7 @@ class BotController extends Controller
                     switch ($buttonAction) {
                         case 'notRated':
                             $bot->answerCallbackQuery([
-                                'text' => 'Ваш голос учтён. Спасибо вам.',
+                                'text' => 'Sizning ovozingiz hisoblab chiqildi.',
                                 'cache_time' => 1,
                                 'show_alert' => true,
                             ]);
@@ -62,7 +62,7 @@ class BotController extends Controller
                             $bot->editMessageReplyMarkup(['reply_markup' => $keyboard]);
                         case 'rated':
                             $bot->answerCallbackQuery([
-                                'text' => 'Вы уже проголосовали!!!',
+                                'text' => 'Siz allaqachon ovoz bergansiz',
                                 'cache_time' => 1,
                                 'show_alert' => true,
                             ]);
@@ -70,7 +70,7 @@ class BotController extends Controller
                 }
             }else{
                 $bot->answerCallbackQuery([
-                    'text' => 'Для голосования вам нужно быть подписаным на канал',
+                    'text' => "Ovoz berish uchun OYINA.UZ kanaliga obuna bo'lishingiz kerak",
                     'cache_time' => 1,
                     'show_alert' => true,
                 ]);

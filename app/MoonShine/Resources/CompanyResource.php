@@ -16,6 +16,7 @@ use MoonShine\Fields\HasMany;
 use MoonShine\Fields\HasManyThrough;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\Textarea;
+use MoonShine\Filters\BelongsToManyFilter;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;

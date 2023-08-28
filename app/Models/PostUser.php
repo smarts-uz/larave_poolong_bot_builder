@@ -11,4 +11,17 @@ class PostUser extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = ['user_id','post_id','button_id'];
+
+    public function posts()
+    {
+        return $this->belongsTo(Post::class);
+    }
+    public function users()
+    {
+        return $this->belongsTo(TelegramUser::class);
+    }
+    public function buttons()
+    {
+        return $this->belongsTo(BotButton::class);
+    }
 }

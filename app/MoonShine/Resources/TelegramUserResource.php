@@ -2,36 +2,31 @@
 
 namespace App\MoonShine\Resources;
 
-use App\Models\BotButton;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\TelegramUser;
 
 use MoonShine\Actions\ExportAction;
 use MoonShine\Actions\ImportAction;
-use MoonShine\Fields\BelongsTo;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
 
-class ButtonResource extends Resource
+class TelegramUserResource extends Resource
 {
-	public static string $model = BotButton::class;
+	public static string $model = TelegramUser::class;
 
-	public static string $title = 'Buttons';
-    public static string $orderField = 'count';
-    public static string $orderType = 'desc';
+	public static string $title = 'TelegramUsers';
+    public static array $activeActions = ['show','delete'];
 
 	public function fields(): array
 	{
 		return [
-		    ID::make()->sortable()->showOnExport()->useOnImport(),
-            Text::make('Button','title')->showOnExport()->useOnImport(),
-            Text::make('Action Count','count')->showOnExport()->useOnImport(),
-            Text::make('Post Title','id', function (BotButton $botButton) {
-                return $botButton->post->title;
-            })->hideOnCreate()->hideOnUpdate(),
-            BelongsTo::make('Post Id','post')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnUpdate(),
+		    ID::make()->sortable()->useOnImport()->showOnExport(),
+            Text::make('First Name','first_name')->useOnImport()->showOnExport(),
+            Text::make('Last Name','last_name')->useOnImport()->showOnExport(),
+            Text::make('Username','username')->useOnImport()->showOnExport(),
+            Text::make('Telegram Id','telegram_id')->useOnImport()->showOnExport(),
 
         ];
 	}

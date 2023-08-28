@@ -2,9 +2,12 @@
 
 namespace App\MoonShine\Resources;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Post;
 
+use MoonShine\Actions\ExportAction;
+use MoonShine\Actions\ImportAction;
 use MoonShine\CKEditor\Fields\CKEditor;
 use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Column;
@@ -27,23 +30,23 @@ class PostResource extends Resource
 	public static string $model = Post::class;
 
 	public static string $title = 'Posts';
+    public string $titleField = 'id';
 
 	public function fields(): array
 	{
 		return [
             Grid::make([
                Column::make([
-                   Block::make('Основная информация',[
-                       Text::make('Заголовок','title'),
-                       Textarea::make('Контент','content'),
-                       BelongsTo::make('Company','company_id')->searchable(),
+                   Block::make('Basic Information',[
+                       Text::make('Title','title')->required()->showOnExport()->useOnImport(),
+                       Textarea::make('Content','content')->required()->showOnExport()->useOnImport(),
                    ]),
                ]),
                        Column::make([
-                           Block::make('Медиа Контет',[
-                               HasOne::make('Добавить медиа','media')->fields([
-                                   ID::make()->sortable(),
-                                   File::make('Файл','file_name')
+                           Block::make('Media Content',[
+                               HasOne::make('Add media','media')->fields([
+                                   ID::make()->sortable()->showOnExport(),
+                                   File::make('File','file_name')
                                        ->dir('/media')
                                        ->keepOriginalFileName()
                                        ->removable()
@@ -61,19 +64,20 @@ class PostResource extends Resource
                                            '3gp',
                                            'webm',
                                        ]),
-                               ])->hideOnIndex()->fullPage(),
+                               ])->hideOnIndex()->fullPage()->required(),
                            ]),
                        ])->columnSpan(6),
                        Column::make([
-                           Block::make('Кнопки бота',[
-                               HasMany::make('Кнопки', 'button')->fields([
+                           Block::make('Bot Buttons',[
+                               HasMany::make('Button')->fields([
                                    ID::make(),
-                                   Text::make('Добавить кнопку','title'),
-                               ])->hideOnIndex()->fullPage(),
+                                   Text::make('Add button','title'),
+                                   Text::make('Action count','count')->hidden()
+                               ])->hideOnIndex()->fullPage()->required(),
                            ]),
                        ])->columnSpan(6),
 
-                        SwitchBoolean::make('Опубликовать пост', 'is_published')
+                        SwitchBoolean::make('Publish a Post', 'is_published')
                             ->default(false)
                             ->showOnCreate(false)
                             ->showOnDetail(false)
@@ -101,6 +105,12 @@ class PostResource extends Resource
     {
         return [
             FiltersAction::make(trans('moonshine::ui.filters')),
+            ExportAction::make('Export')->showInLine()
+            ->disk('public')
+            ->dir('posts'),
+            ImportAction::make('Import')->showInLine()
+                ->disk('public')
+                ->dir('buttons'),
         ];
     }
 }

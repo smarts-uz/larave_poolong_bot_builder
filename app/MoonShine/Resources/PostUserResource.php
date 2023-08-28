@@ -3,36 +3,32 @@
 namespace App\MoonShine\Resources;
 
 use App\Models\BotButton;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\PostUser;
 
 use MoonShine\Actions\ExportAction;
 use MoonShine\Actions\ImportAction;
-use MoonShine\Fields\BelongsTo;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
 
-class ButtonResource extends Resource
+class PostUserResource extends Resource
 {
-	public static string $model = BotButton::class;
+	public static string $model = PostUser::class;
 
-	public static string $title = 'Buttons';
-    public static string $orderField = 'count';
-    public static string $orderType = 'desc';
+	public static string $title = 'PostUsers';
+
+    public static array $activeActions = ['show','edit','delete'];
 
 	public function fields(): array
 	{
 		return [
 		    ID::make()->sortable()->showOnExport()->useOnImport(),
-            Text::make('Button','title')->showOnExport()->useOnImport(),
-            Text::make('Action Count','count')->showOnExport()->useOnImport(),
-            Text::make('Post Title','id', function (BotButton $botButton) {
-                return $botButton->post->title;
-            })->hideOnCreate()->hideOnUpdate(),
-            BelongsTo::make('Post Id','post')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnUpdate(),
-
+            Text::make('User','user_id')->showOnExport()->useOnImport(),
+            Text::make('Post','post_id')->showOnExport()->useOnImport(),
+            Text::make('Button','button_id')->showOnExport()->useOnImport(),
         ];
 	}
 

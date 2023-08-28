@@ -19,6 +19,6 @@ class BotButton extends Model
     }
     public function posts()
     {
-        return $this->belongsToMany(User::class, 'post_users','button_id','user_id');
+        return $this->belongsToMany(TelegramUser::class, 'post_users','button_id','user_id');
     }
 }
