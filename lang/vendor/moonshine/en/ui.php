@@ -85,5 +85,29 @@ return [
             'file_required' => 'File is required',
             'extension_not_supported' => 'File extension not supported'
         ]
-    ]
+    ],
+        'custom' => [
+            'buttons' => 'Buttons',
+            'button' => 'Button',
+            'button_title' => 'Button Title',
+            'add_button' => 'Add Button',
+            'action_count' => 'Action Count',
+            'post_title'=>'Post Title',
+            'file'=>'File',
+            'basic_info'=>'Basic Information',
+            'content'=>'Content',
+            'media_content'=>'Media Content',
+            'add_media'=>'Add media',
+            'post_buttons'=>'Post Buttons',
+            'publish_post'=>'Publish a Post',
+            'first_name'=>'First Name',
+            'last_name'=>'Last Name',
+            'user_info'=>'User Information',
+            'posts'=>'Posts',
+            'create_post'=>'Create Post',
+            'media'=>'Media',
+            'users'=>'Users',
+            'report'=>'Report',
+        ]
+
 ];

@@ -20,24 +20,24 @@ class MoonShineServiceProvider extends ServiceProvider
     public function boot(): void
     {
         app(MoonShine::class)->menu([
-            MenuGroup::make('Post',[
+            MenuGroup::make(trans('moonshine::ui.custom.posts'),[
 
-                MenuItem::make('Posts',new PostResource())
+                MenuItem::make(trans('moonshine::ui.custom.create_post'),new PostResource())
                     ->icon('heroicons.clipboard-document-list'),
-                MenuItem::make('Buttons',new ButtonResource())
+                MenuItem::make(trans('moonshine::ui.custom.buttons'),new ButtonResource())
                     ->icon('heroicons.document-duplicate'),
-                MenuItem::make('Media',new MediaResource())
+                MenuItem::make(trans('moonshine::ui.custom.media'),new MediaResource())
                     ->icon('heroicons.paper-clip'),
 
                 ])->icon('heroicons.chat-bubble-bottom-center-text'),
 
-            MenuGroup::make( 'Users',[
+            MenuGroup::make( trans('moonshine::ui.custom.users'),[
 
-                MenuItem::make('Users',new TelegramUserResource())
+                MenuItem::make(trans('moonshine::ui.custom.users'),new TelegramUserResource())
                     ->icon('heroicons.user'),
 
                 ])->icon('heroicons.user-group'),
-            MenuGroup::make('Report',[
+            MenuGroup::make(trans('moonshine::ui.custom.report'),[
 
                 MenuItem::make('Post-Users',new PostUserResource())
                     ->icon('heroicons.cursor-arrow-ripple'),

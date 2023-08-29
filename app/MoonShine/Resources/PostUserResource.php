@@ -29,10 +29,10 @@ class PostUserResource extends Resource
             Text::make('User','user_id')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnDetail(),
             Text::make('Post','post_id')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnDetail(),
             Text::make('Button','button_id')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnDetail(),
-            Text::make('Post Title','id', function (PostUser $botButton) {
+            Text::make(trans('moonshine::ui.custom.post_title'),'id', function (PostUser $botButton) {
                 return $botButton->posts->title;
             })->hideOnCreate(),
-            Text::make('User Info','id', function (PostUser $botButton) {
+            Text::make(trans('moonshine::ui.custom.user_info'),'id', function (PostUser $botButton) {
                 if (!empty($botButton->users->username)) {
                     return $botButton->users->username;
                 }
@@ -44,7 +44,7 @@ class PostUserResource extends Resource
                 }
                 return 'default';
             })->hideOnCreate(),
-            Text::make('Button Title','id', function (PostUser $botButton) {
+            Text::make(trans('moonshine::ui.custom.button_title'),'id', function (PostUser $botButton) {
                 return $botButton->buttons->title;
             })->hideOnCreate(),
         ];

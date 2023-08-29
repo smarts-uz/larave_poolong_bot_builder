@@ -25,17 +25,17 @@ class MediaResource extends Resource
 	{
 		return [
 		    ID::make()->sortable()->showOnIndex()->useOnImport()->showOnExport(),
-            File::make('File','file_name')
+            File::make(trans('moonshine::ui.custom.file'),'file_name')
                 ->dir('/mediad')
                 ->keepOriginalFileName()
                 ->removable()
                 ->useOnImport()
                 ->showOnExport()
                 ->allowedExtensions(['jpg', 'gif', 'png']),
-            Text::make('Post Title','id', function (Media $media) {
+            Text::make(trans('moonshine::ui.custom.post_title'),'id', function (Media $media) {
                 return $media->post->title;
             })->hideOnCreate()->hideOnUpdate(),
-            BelongsTo::make('Post Title', 'post')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnUpdate(),
+            BelongsTo::make(trans('moonshine::ui.custom.post_title'), 'post')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnUpdate(),
         ];
 	}
 

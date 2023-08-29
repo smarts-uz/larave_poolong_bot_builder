@@ -26,9 +26,9 @@ class ButtonResource extends Resource
 	{
 		return [
 		    ID::make()->sortable()->showOnExport()->useOnImport(),
-            Text::make('Button','title')->showOnExport()->useOnImport(),
-            Text::make('Action Count','count')->showOnExport()->useOnImport(),
-            Text::make('Post Title','id', function (BotButton $botButton) {
+            Text::make(trans('moonshine::ui.custom.buttons'),'title')->showOnExport()->useOnImport(),
+            Text::make(trans('moonshine::ui.custom.action_count'),'count')->showOnExport()->useOnImport(),
+            Text::make(trans('moonshine::ui.custom.post_title'),'id', function (BotButton $botButton) {
                 return $botButton->post->title;
             })->hideOnCreate()->hideOnUpdate(),
             BelongsTo::make('Post Id','post')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnUpdate(),

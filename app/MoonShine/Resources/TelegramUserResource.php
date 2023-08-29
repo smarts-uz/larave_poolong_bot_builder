@@ -23,8 +23,8 @@ class TelegramUserResource extends Resource
 	{
 		return [
 		    ID::make()->sortable()->useOnImport()->showOnExport(),
-            Text::make('First Name','first_name')->useOnImport()->showOnExport(),
-            Text::make('Last Name','last_name')->useOnImport()->showOnExport(),
+            Text::make(trans('moonshine::ui.custom.first_name'),'first_name')->useOnImport()->showOnExport(),
+            Text::make(trans('moonshine::ui.custom.last_name'),'last_name')->useOnImport()->showOnExport(),
             Text::make('Username','username')->useOnImport()->showOnExport(),
             Text::make('Telegram Id','telegram_id')->useOnImport()->showOnExport(),
 

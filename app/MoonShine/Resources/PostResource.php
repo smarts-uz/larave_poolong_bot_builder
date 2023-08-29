@@ -37,16 +37,16 @@ class PostResource extends Resource
 		return [
             Grid::make([
                Column::make([
-                   Block::make('Basic Information',[
-                       Text::make('Title','title')->required()->showOnExport()->useOnImport(),
-                       Textarea::make('Content','content')->required()->showOnExport()->useOnImport(),
+                   Block::make(trans('moonshine::ui.custom.basic_info'),[
+                       Text::make(trans('moonshine::ui.custom.post_title'),'title')->required()->showOnExport()->useOnImport(),
+                       Textarea::make(trans('moonshine::ui.custom.content'),'content')->required()->showOnExport()->useOnImport(),
                    ]),
                ]),
                        Column::make([
-                           Block::make('Media Content',[
-                               HasOne::make('Add media','media')->fields([
+                           Block::make(trans('moonshine::ui.custom.media_content'),[
+                               HasOne::make(trans('moonshine::ui.custom.add_media'),'media')->fields([
                                    ID::make()->sortable()->showOnExport(),
-                                   File::make('File','file_name')
+                                   File::make(trans('moonshine::ui.custom.file'),'file_name')
                                        ->dir('/media')
                                        ->keepOriginalFileName()
                                        ->removable()
@@ -68,16 +68,16 @@ class PostResource extends Resource
                            ]),
                        ])->columnSpan(6),
                        Column::make([
-                           Block::make('Bot Buttons',[
-                               HasMany::make('Button')->fields([
+                           Block::make(trans('moonshine::ui.custom.post_buttons'),[
+                               HasMany::make(trans('moonshine::ui.custom.button'),'button')->fields([
                                    ID::make(),
-                                   Text::make('Add button','title'),
-                                   Text::make('Action count','count')->hidden()
+                                   Text::make(trans('moonshine::ui.custom.button'),'title'),
+                                   Text::make(trans('moonshine::ui.custom.action_count'),'count')->hidden()
                                ])->hideOnIndex()->fullPage()->required(),
                            ]),
                        ])->columnSpan(6),
 
-                        SwitchBoolean::make('Publish a Post', 'is_published')
+                        SwitchBoolean::make(trans('moonshine::ui.custom.publish_post'), 'is_published')
                             ->default(false)
                             ->showOnCreate(false)
                             ->showOnDetail(false)

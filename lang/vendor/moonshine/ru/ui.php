@@ -85,5 +85,29 @@ return [
             'file_required' => 'Файл обязателен',
             'extension_not_supported' => 'Расширения не поддерживается'
         ]
-    ]
+    ],
+
+        'custom' => [
+            'buttons' => 'Кнопки',
+            'button' => 'Кнопка',
+            'button_title' => 'Заголовок Кнопки',
+            'add_button' => 'Добавить кнопку',
+            'action_count' => 'Количество действий',
+            'post_title'=>'Заголовок поста',
+            'file'=>'Файл',
+            'basic_info'=>'Основная информация',
+            'content'=>'Контент',
+            'media_content'=>'Медиа контент',
+            'add_media'=>'Добавить медиа',
+            'post_buttons'=>'Кнопки поста',
+            'publish_post'=>'Опубликовать пост',
+            'first_name'=>'Имя',
+            'last_name'=>'Фамилия',
+            'user_info'=>'Информация о пользователе',
+            'posts'=>'Посты',
+            'create_post'=>'Создать Пост',
+            'media'=>'Медиа',
+            'users'=>'Пользователи',
+            'report'=>'Отчёт',
+        ]
 ];

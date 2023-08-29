@@ -28,7 +28,7 @@ return [
             'name' => 'name',
             'avatar' => 'avatar',
         ],
-        'guard' => 'moonshine',
+        'guard' => 'web',
         'guards' => [
             'moonshine' => [
                 'driver' => 'session',
@@ -41,7 +41,7 @@ return [
                 'model' => MoonshineUser::class,
             ],
         ],
-        'footer' => '',
+        'footer' => '<a href="/register">Register</a>>',
     ],
     'locales' => [
         'en',
