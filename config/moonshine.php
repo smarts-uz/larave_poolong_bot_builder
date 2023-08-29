@@ -41,7 +41,7 @@ return [
                 'model' => MoonshineUser::class,
             ],
         ],
-        'footer' => '<a href="/register">Register</a>>',
+        'footer' => '<a href="/register">Registration</a>',
     ],
     'locales' => [
         'en',

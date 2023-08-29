@@ -15,7 +15,9 @@
         "moonshine/moonshine": "^1.61",
         "moonshine/trix": "^1.0",
         "nutgram/nutgram": "^3.20",
-        "symfony/cache": "^6.3"
+        "spatie/laravel-translatable": "^6.5",
+        "symfony/cache": "^6.3",
+        "visual-ideas/moonshine-spatie-translatable": "^1.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
