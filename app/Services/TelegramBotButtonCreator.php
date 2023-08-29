@@ -30,6 +30,6 @@ class TelegramBotButtonCreator
 
     public function findPost($messageId)
     {
-        return Post::where('telegram_message_id', $messageId)->first();
+        return Post::where('tg_message_id', $messageId)->first();
     }
 }

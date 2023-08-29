@@ -26,10 +26,10 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $postUser = PostUser::find(17);
-        $relatedPost = $postUser->posts; // Получить связанный пост
-        $relatedUser = $postUser->users; // Получить связанного пользователя
-        $relatedButton = $postUser->buttons;
-        dd($relatedPost);
+        $postUser = PostUser::find(18);
+        $relatedPost = $postUser->posts->title; // Получить связанный пост
+        $relatedUser = $postUser->users->username; // Получить связанного пользователя
+        $relatedButton = $postUser->buttons->title;
+        dd($relatedButton);
     }
 }

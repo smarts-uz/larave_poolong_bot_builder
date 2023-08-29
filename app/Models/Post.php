@@ -18,6 +18,7 @@ class Post extends Model
         'user_id',
         'company_id'
     ];
+    protected $table = 'tg_posts';
 
     public function company()
     {
@@ -35,7 +36,8 @@ class Post extends Model
     }
     public function posts()
     {
-        return $this->belongsToMany(PostUser::class, 'post_users','post_id','id');
+        // Укажите соответствие между столбцами в модели и в базе данных.
+        return $this->belongsToMany(PostUser::class, 'tg_post_users', 'tg_post_id', 'tg_user_id');
     }
 
 }

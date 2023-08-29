@@ -13,12 +13,15 @@ class BotButton extends Model
 
     protected $fillable = ['title','post_id'];
 
+    protected $table = 'tg_buttons';
+
     public function post()
     {
         return $this->belongsTo(Post::class);
     }
-    public function posts()
+    public function users()
     {
-        return $this->belongsToMany(TelegramUser::class, 'post_users','button_id','user_id');
+        // Укажите соответствие между столбцами в модели и в базе данных.
+        return $this->belongsToMany(TelegramUser::class, 'tg_post_users', 'tg_button_id', 'tg_user_id');
     }
 }

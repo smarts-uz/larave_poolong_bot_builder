@@ -20,15 +20,33 @@ class PostUserResource extends Resource
 
 	public static string $title = 'PostUsers';
 
-    public static array $activeActions = ['show','edit','delete'];
+    public static array $activeActions = ['show','delete'];
 
 	public function fields(): array
 	{
 		return [
 		    ID::make()->sortable()->showOnExport()->useOnImport(),
-            Text::make('User','user_id')->showOnExport()->useOnImport(),
-            Text::make('Post','post_id')->showOnExport()->useOnImport(),
-            Text::make('Button','button_id')->showOnExport()->useOnImport(),
+            Text::make('User','user_id')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnDetail(),
+            Text::make('Post','post_id')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnDetail(),
+            Text::make('Button','button_id')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnDetail(),
+            Text::make('Post Title','id', function (PostUser $botButton) {
+                return $botButton->posts->title;
+            })->hideOnCreate(),
+            Text::make('User Info','id', function (PostUser $botButton) {
+                if (!empty($botButton->users->username)) {
+                    return $botButton->users->username;
+                }
+                if (!empty($botButton->users->first_name)) {
+                    return $botButton->users->first_name;
+                }
+                if (!empty($botButton->users->last_name)) {
+                    return $botButton->users->last_name;
+                }
+                return 'default';
+            })->hideOnCreate(),
+            Text::make('Button Title','id', function (PostUser $botButton) {
+                return $botButton->buttons->title;
+            })->hideOnCreate(),
         ];
 	}
 

@@ -77,7 +77,7 @@ class TelegramBotService
     public function botDeleteMessage(Nutgram $bot, $post)
     {
         try {
-            $bot->deleteMessage($_ENV['TELEGRAM_BOT_GROUP_ID'], $post->telegram_message_id);
+            $bot->deleteMessage($_ENV['TELEGRAM_BOT_GROUP_ID'], $post->tg_message_id);
         } catch (\Exception $exception) {
             Debugbar::info($exception);
         }
@@ -85,23 +85,23 @@ class TelegramBotService
 
     public function saveChatId($post, $message)
     {
-        $post->telegram_message_id = $message->message_id;
+        $post->tg_message_id = $message->message_id;
         $post->saveQuietly();
     }
 
     public function buttonsAction($messageId, $callbackData, $userId)
     {
-        $post = Post::where('telegram_message_id', $messageId)->first();
+        $post = Post::where('tg_message_id', $messageId)->first();
         $button = $post->button()->where('title', $callbackData)->first();
         $user = TelegramUser::where('telegram_id', $userId)->first();
 
         if (!empty($post && $button && $user)) {
-            $postUser = PostUser::where('user_id', $user->id)->where('post_id', $post->id)->first();
+            $postUser = PostUser::where('tg_user_id', $user->id)->where('tg_post_id', $post->id)->first();
             if (empty($postUser)) {
                 PostUser::firstOrCreate([
-                    'user_id' => $user->id,
-                    'post_id' => $post->id,
-                    'button_id' => $button->id,
+                    'tg_user_id' => $user->id,
+                    'tg_post_id' => $post->id,
+                    'tg_button_id' => $button->id,
                 ])->save();
                 $button->increment('count');
                 return 'notRated';

@@ -21,13 +21,27 @@ class MoonShineServiceProvider extends ServiceProvider
     {
         app(MoonShine::class)->menu([
             MenuGroup::make('Post',[
-                MenuItem::make('Posts',new PostResource())->icon('heroicons.clipboard-document-list'),
-                MenuItem::make('Buttons',new ButtonResource())->icon('heroicons.document-duplicate'),
-                MenuItem::make('Media',new MediaResource())->icon('heroicons.paper-clip'),])->icon('heroicons.chat-bubble-bottom-center-text'),
+
+                MenuItem::make('Posts',new PostResource())
+                    ->icon('heroicons.clipboard-document-list'),
+                MenuItem::make('Buttons',new ButtonResource())
+                    ->icon('heroicons.document-duplicate'),
+                MenuItem::make('Media',new MediaResource())
+                    ->icon('heroicons.paper-clip'),
+
+                ])->icon('heroicons.chat-bubble-bottom-center-text'),
 
             MenuGroup::make( 'Users',[
-                MenuItem::make('Users',new TelegramUserResource())->icon('heroicons.user'),
-                MenuItem::make('Post-Users',new PostUserResource())->icon('heroicons.cursor-arrow-ripple'),])->icon('heroicons.user-group'),
+
+                MenuItem::make('Users',new TelegramUserResource())
+                    ->icon('heroicons.user'),
+
+                ])->icon('heroicons.user-group'),
+            MenuGroup::make('Report',[
+
+                MenuItem::make('Post-Users',new PostUserResource())
+                    ->icon('heroicons.cursor-arrow-ripple'),
+            ])->icon('heroicons.flag'),
 
         ]);
     }
