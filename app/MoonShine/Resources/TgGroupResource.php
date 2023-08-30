@@ -5,6 +5,8 @@ namespace App\MoonShine\Resources;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TgGroup;
 
+use MoonShine\Fields\BelongsTo;
+use MoonShine\Fields\HasMany;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
@@ -20,7 +22,8 @@ class TgGroupResource extends Resource
 	{
 		return [
 		    ID::make()->sortable(),
-            Text::make('Bot Token','bot_token'),
+            Text::make('Bot Chats','title'),
+            HasMany::make('Bots','tg_bot_id','bots'),
         ];
 	}
 

@@ -9,6 +9,7 @@ use App\MoonShine\Resources\PostResource;
 use App\MoonShine\Resources\PostUserResource;
 use App\MoonShine\Resources\TelegramUserResource;
 use App\MoonShine\Resources\TgBotResource;
+use App\MoonShine\Resources\TgGroupResource;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
@@ -46,8 +47,10 @@ class MoonShineServiceProvider extends ServiceProvider
 
             MenuGroup::make('Bot Settings',[
 
-                MenuItem::make('Add Bot',new TgBotResource())
+                MenuItem::make('Telegram Bot',new TgBotResource())
                     ->icon('heroicons.plus-circle'),
+                MenuItem::make('Bot Chats',new TgGroupResource())
+                    ->icon('heroicons.chat-bubble-bottom-center-text'),
 
             ])->icon('heroicons.wrench-screwdriver'),
         ]);

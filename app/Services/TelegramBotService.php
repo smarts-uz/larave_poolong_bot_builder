@@ -114,5 +114,10 @@ class TelegramBotService
         return null;
     }
 
+    public static function execInBackground($cmd)
+    {
+        pclose(popen("start /B ". $cmd, "r"));
+    }
+
 
 }

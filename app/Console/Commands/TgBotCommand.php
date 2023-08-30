@@ -1,41 +1,51 @@
 <?php
 
-namespace App\Http\Controllers\Telegram;
+namespace App\Console\Commands;
 
-use App\Http\Controllers\Controller;
-use App\Jobs\TelegramBotButtonActionJob;
-use App\Models\Post;
-use App\Models\PostUser;
-use App\Models\TelegramUser;
+use App\Handlers\Telegram\TgBotGroupHandler;
+use App\Models\TgBot;
 use App\Services\TelegramBotButtonCreator;
+use App\Services\TelegramBotGroupService;
 use App\Services\TelegramBotService;
 use App\Telegram\Middleware\TelegramBotCollectChat;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Queue\Queue;
+use Illuminate\Console\Command;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\RunningMode\Polling;
-use SergiX44\Nutgram\RunningMode\Webhook;
 
-class BotController extends Controller
+class TgBotCommand extends Command
 {
-    public function handle(Nutgram $bot)
+    protected $signature = 'tg:bot {id}';
+
+    protected $description = 'Command description';
+    protected $botId;
+
+    public function handle(Nutgram $bot): void
     {
+        $this->botId = $this->argument('id');
+        $tgBot = TgBot::where('id', $this->botId)->first();
+
         $botService = new TelegramBotService();
         $cache = $botService->setCache();
 
-        $bot = new Nutgram($_ENV['TELEGRAM_TOKEN'],
+        $bot = new Nutgram($tgBot->bot_token,
             ['cache' => $cache]);
 
-        try {
-            $bot->middleware(TelegramBotCollectChat::class);
-        } catch (\Exception $exception) {
-            Debugbar::info($exception);
-        }
+        $tgBot->update(['bot_username' => $bot->getMe()->username]);
+
+        $bot->middleware(function (Nutgram $bot, $next) {
+            $bot->setData('bot_id', $this->botId);
+            $next($bot);
+        });
+
+        $bot->middleware(TelegramBotCollectChat::class);
+
         $bot->setRunningMode(Polling::class);
+
+        $bot->onMyChatMember(TgBotGroupHandler::class);
 
 
         $bot->onCommand('start', function (Nutgram $bot) {
-            $bot->sendMessage('Hello');
+            $bot->sendMessage('Hello world');
         });
 
         $bot->onCallbackQuery(function (Nutgram $bot) {
@@ -78,6 +88,14 @@ class BotController extends Controller
             }
 
         });
+
+        $bot->onNewChatTitle(function (Nutgram $bot) {
+            $newTitle = $bot->chat()->title;
+            $groupId = $bot->message()->chat->id;
+            $service = new TelegramBotGroupService();
+            $service->updateChatTitle($groupId,$this->botId,$newTitle);
+        });
+
 
         $bot->run();
     }
