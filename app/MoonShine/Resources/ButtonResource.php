@@ -21,7 +21,7 @@ class ButtonResource extends Resource
 	public static string $title = 'Buttons';
     public static string $orderField = 'count';
     public static string $orderType = 'desc';
-
+    public static array $activeActions = ['show','delete','edit'];
 	public function fields(): array
 	{
 		return [

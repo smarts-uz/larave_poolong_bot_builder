@@ -16,8 +16,14 @@ class TgBot extends Model
     protected $table = 'tg_bots';
     protected $fillable = ['bot_token','bot_username','tg_user_id','user_id','executed_time','process_id'];
 
-    public function groups(): BelongsTo
+
+    public function groups(): HasMany
     {
-        return $this->belongsTo(TgGroup::class);
+        return $this->hasMany(TgGroup::class);
+    }
+
+    public function text()
+    {
+        return $this->belongsTo(TgBotText::class);
     }
 }

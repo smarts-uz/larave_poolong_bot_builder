@@ -6,12 +6,15 @@ namespace App\Services;
 use App\Models\Post;
 use App\Models\PostUser;
 use App\Models\TelegramUser;
+use App\Models\TgBot;
+use App\Models\TgGroup;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
+use function Symfony\Component\Translation\t;
 
 class TelegramBotService
 {
@@ -34,22 +37,32 @@ class TelegramBotService
         return $psr16Cache;
     }
 
-    public function botSendMessage(Nutgram $bot, $post)
+    public function getBotById($id)
     {
+        return TgBot::where('id', $id)->first();
+    }
+
+    public function botSendMessage(Nutgram $bot, $post,$botId)
+    {
+        $tgGroups = TgGroup::where('tg_bot_id',$botId)->where('tg_bot_on',true)->get();
+
         [$media, $fileContents] = $this->fileCheckService->fileCheck($post);
         switch ($media) {
             case 'photo':
                 $photo = fopen($fileContents, 'r+');
                 if ($photo) {
                     $keyboard = $this->buttonService->botCreateInlineButtons($post);
-                    $message = $bot->sendPhoto($photo, [
-                        'chat_id' => $_ENV['TELEGRAM_BOT_GROUP_ID'],
-                        'parse_mode' => 'html',
-                        'caption' => $post->content,
-                        'reply_markup' => $keyboard,
-                    ]);
-                    $this->fileCheckService->closeFile($photo);
-                    $this->saveChatId($post, $message);
+                    foreach ($tgGroups as $group) {
+
+                        $message = $bot->sendPhoto($photo, [
+                            'chat_id' => $group->group_id,
+                            'parse_mode' => 'html',
+                            'caption' => $post->content,
+                            'reply_markup' => $keyboard,
+                        ]);
+                        $this->fileCheckService->closeFile($photo);
+                        $this->saveChatId($post, $message);
+                    }
 
                 }
                 break;
@@ -58,15 +71,18 @@ class TelegramBotService
                 $photo = fopen($fileContents, 'r+');
                 if ($photo) {
                     $keyboard = $this->buttonService->botCreateInlineButtons($post);
-                    $message = $bot->sendVideo($photo, [
-                        'chat_id' => $_ENV['TELEGRAM_BOT_GROUP_ID'],
-                        'parse_mode' => 'html',
-                        'caption' => $post->content,
-                        'reply_markup' => $keyboard,
-                    ]);
+                    foreach ($tgGroups as $group) {
 
-                    $this->fileCheckService->closeFile($photo);
-                    $this->saveChatId($post, $message);
+                        $message = $bot->sendVideo($photo, [
+                            'chat_id' => $group->group_id,
+                            'parse_mode' => 'html',
+                            'caption' => $post->content,
+                            'reply_markup' => $keyboard,
+                        ]);
+
+                        $this->fileCheckService->closeFile($photo);
+                        $this->saveChatId($post, $message);
+                    }
                 }
                 break;
             default:
@@ -74,10 +90,14 @@ class TelegramBotService
         }
     }
 
-    public function botDeleteMessage(Nutgram $bot, $post)
+    public function botDeleteMessage(Nutgram $bot, $post,$botId)
     {
         try {
-            $bot->deleteMessage($_ENV['TELEGRAM_BOT_GROUP_ID'], $post->tg_message_id);
+            $tgGroups = TgGroup::where('tg_bot_id',$botId)->where('tg_bot_on',true)->get();
+            foreach ($tgGroups as $group) {
+                $bot->deleteMessage($group->group_id, $post->tg_message_id);
+            }
+
         } catch (\Exception $exception) {
             Debugbar::info($exception);
         }

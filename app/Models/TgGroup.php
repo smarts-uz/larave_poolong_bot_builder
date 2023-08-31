@@ -15,8 +15,8 @@ class TgGroup extends Model
     protected $table = 'tg_groups';
 
 
-    public function bots(): HasMany
+    public function bots()
     {
-        return $this->hasMany(TgBot::class);
+        return $this->belongsTo(TgBot::class);
     }
 }

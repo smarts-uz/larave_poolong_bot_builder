@@ -77,6 +77,13 @@ class PostResource extends Resource
                            ]),
                        ])->columnSpan(6),
 
+                        Column::make([
+                            Block::make('Bots',[
+                                BelongsTo::make('Bot','bot','bot_username'),
+//                                BelongsTo::make('Group','group',new TgGroupResource())
+                            ])
+                        ]),
+
                         SwitchBoolean::make(trans('moonshine::ui.custom.publish_post'), 'is_published')
                             ->default(false)
                             ->showOnCreate(false)
@@ -99,6 +106,10 @@ class PostResource extends Resource
     public function filters(): array
     {
         return [];
+    }
+    public function beforeCreating(Model $item)
+    {
+        $item->user_id = request()->user()->id;
     }
 
     public function actions(): array

@@ -4,12 +4,16 @@ namespace App\MoonShine\Resources;
 
 
 use App\Jobs\ArtisanJob;
+use App\Models\TgBotText;
+use App\Services\BotSetWebhookService;
 use App\Services\TelegramBotService;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TgBot;
 
 use Illuminate\Support\Facades\Artisan;
+use MoonShine\Fields\BelongsTo;
+use MoonShine\Fields\HasMany;
 use MoonShine\Fields\Text;
 use MoonShine\ItemActions\ItemAction;
 use MoonShine\Resources\Resource;
@@ -22,11 +26,15 @@ class TgBotResource extends Resource
 
 	public static string $title = 'TgBots';
 
+
+
 	public function fields(): array
 	{
 		return [
 		    ID::make()->sortable(),
-            Text::make('Bot Token','bot_token'),
+            Text::make('Bot Token','bot_token')->hideOnIndex(),
+            Text::make('Bot Username','bot_username')->hideOnCreate()->hideOnUpdate(),
+            HasMany::make('BotGroup','groups',new TgGroupResource())->resourceMode(),
         ];
 	}
 
@@ -56,16 +64,29 @@ class TgBotResource extends Resource
     {
         $item->user_id = request()->user()->id;
     }
+    protected function afterCreated(Model $item)
+    {
+        $botText = new TgBotText();
+        $botText->create([
+            'first_action_msg' => 'Thanks for your vote',
+            'repeated_action_msg' => 'You have already voted',
+            'follow_msg' => 'To vote you need to be subscribed to the channel',
+            'bot_id' => $item->id,
+        ]);
+    }
     public function itemActions(): array
     {
         return [
             ItemAction::make('Activate', function (Model $item) {
-                ArtisanJob::dispatch($item);
-//                $cmd = 'php artisan tg:bot' . "{$item->id}";
-//                $service = new TelegramBotService();
-//                $service::execInBackground($cmd);
+
+                $makeBot = new BotSetWebhookService();
+                $makeBot->setWebhook($item->bot_token);
+
             },'Activated')->icon('heroicons.check'),
              ItemAction::make('Deactivate', function (Model $item) {
+
+                 $makeBot = new BotSetWebhookService();
+                 $makeBot->deleteWebhook($item->bot_token);
 
              },'Deactivated')->icon('heroicons.x-mark')
         ];

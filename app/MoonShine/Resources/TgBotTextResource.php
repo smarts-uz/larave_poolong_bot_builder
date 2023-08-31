@@ -3,29 +3,29 @@
 namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TgGroup;
+use App\Models\TgBotText;
 
-use MoonShine\Fields\BelongsTo;
-use MoonShine\Fields\HasMany;
-use MoonShine\Fields\SwitchBoolean;
+use MoonShine\Fields\HasOne;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
 use MoonShine\Actions\FiltersAction;
 
-class TgGroupResource extends Resource
+class TgBotTextResource extends Resource
 {
-	public static string $model = TgGroup::class;
+	public static string $model = TgBotText::class;
 
-	public static string $title = 'TgGroups';
-    public static array $activeActions = ['show'];
+	public static string $title = 'TgBotTexts';
+    public static array $activeActions = ['show','edit'];
+
 	public function fields(): array
 	{
 		return [
 		    ID::make()->sortable(),
-            Text::make('Bot Chats','title'),
-            Text::make('Bot','bot_id'),
-            SwitchBoolean::make('ON/OFF','tg_bot_on'),
+            Text::make('First Action Message','first_action_msg'),
+            Text::make('Repeated Action Message','repeated_action_msg'),
+            Text::make('Unfollow Users Message','follow_msg'),
+            HasOne::make('Bot','bots',new TgBotResource())
         ];
 	}
 

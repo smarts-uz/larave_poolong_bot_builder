@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\PostUser;
+use App\Services\BotSetWebhookService;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -26,10 +27,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $postUser = PostUser::find(18);
-        $relatedPost = $postUser->posts->title; // Получить связанный пост
-        $relatedUser = $postUser->users->username; // Получить связанного пользователя
-        $relatedButton = $postUser->buttons->title;
-        dd($relatedButton);
+        $botSetvice = new BotSetWebhookService();
+        $botSetvice->setWebhook('qweqweqwe');
     }
 }

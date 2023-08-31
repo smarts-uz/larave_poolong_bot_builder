@@ -20,7 +20,7 @@ class MediaResource extends Resource
 	public static string $model = Media::class;
 
 	public static string $title = 'Media';
-
+    public static array $activeActions = ['show','delete','edit'];
 	public function fields(): array
 	{
 		return [
