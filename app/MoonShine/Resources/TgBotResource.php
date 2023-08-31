@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Artisan;
 use MoonShine\Fields\BelongsTo;
 use MoonShine\Fields\HasMany;
 use MoonShine\Fields\Text;
+use MoonShine\Fields\Url;
 use MoonShine\ItemActions\ItemAction;
 use MoonShine\Resources\Resource;
 use MoonShine\Fields\ID;
@@ -33,6 +34,7 @@ class TgBotResource extends Resource
 		return [
 		    ID::make()->sortable(),
             Text::make('Bot Token','bot_token')->hideOnIndex(),
+            Url::make('Base Url','base_url')->required(),
             Text::make('Bot Username','bot_username')->hideOnCreate()->hideOnUpdate(),
             HasMany::make('BotGroup','groups',new TgGroupResource())->resourceMode(),
         ];
@@ -80,7 +82,7 @@ class TgBotResource extends Resource
             ItemAction::make('Activate', function (Model $item) {
 
                 $makeBot = new BotSetWebhookService();
-                $makeBot->setWebhook($item->bot_token);
+                $makeBot->setWebhook($item->id);
 
             },'Activated')->icon('heroicons.check'),
              ItemAction::make('Deactivate', function (Model $item) {

@@ -10,14 +10,31 @@ use Illuminate\Support\Facades\URL;
 
 class BotSetWebhookService
 {
-    public function setWebhook($botToken):void
+    public function setWebhook($id):void
     {
+
+        $bot = TgBot::where('id', $id)->first();
+
         $client = new Client();
-        $id = TgBot::where('bot_token', $botToken)->first();
-        $url = URL::route('bot_url',['id' => $id->id]);
-        $url = str_replace('http://oyinauzbot/', env('TELEGRAM_WEBHOOK_URL'), $url);
-        $url = preg_replace('#^https?://#', '', $url);
-        $urlApp = "https://api.telegram.org/bot{$botToken}/setWebhook?url={$url}";
+
+        $botToken = $bot->bot_token;
+
+        $baseUrl = $bot->base_url;
+
+        $url = "/api/telegram/{$id}";
+
+        $combinedURL = preg_replace("~^(?:f|ht)tps?://~i", "", $baseUrl);
+
+
+        if (substr($combinedURL, -1) === '/') {
+            $combinedURL = substr($combinedURL, 0, -1);
+        }
+
+        $combinedURL .= rtrim($url, '/');
+
+
+        $urlApp = "https://api.telegram.org/bot{$botToken}/setWebhook?url={$combinedURL}";
+
         $request = new Request('GET', $urlApp);
         $client->send($request, ['http_errors' => false]);
     }
