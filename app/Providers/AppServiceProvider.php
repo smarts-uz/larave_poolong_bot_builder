@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use DebugBar\DebugBar;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //$this->app['request']->server->set('HTTPS', true);
+        $appAdress = $_SERVER;
+        json_encode($appAdress);
+
+
+        if (array_key_exists('HTTP_X_FORWARDED_PROTO',$appAdress)) {
+            $this->app['request']->server->set('HTTPS', true);
+        } else {
+            $this->app['request']->server->set('HTTPS', false);
+        }
+
     }
 }
