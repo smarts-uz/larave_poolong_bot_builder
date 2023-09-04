@@ -30,7 +30,7 @@ class BotController extends Controller
         $tgBot = TgBot::where('id', $this->botId)->first();
 
         $botService = new TelegramBotService();
-        $cache = $botService->setCache();
+        $cache = $botService->setCache($this->botId);
 
         $bot = new Nutgram($tgBot->bot_token,
             ['cache' => $cache]);

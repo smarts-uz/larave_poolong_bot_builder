@@ -27,9 +27,10 @@ class TelegramBotService
         $this->fileCheckService = new TelegramBotFileCheck();
     }
 
-    public function setCache()
+    public function setCache($id)
     {
-        $cacheDirectory = storage_path('cache/' . md5($_ENV['TELEGRAM_TOKEN']));
+        $botToken = TgBot::where('id', $id)->first()->bot_token;
+        $cacheDirectory = storage_path('cache/' . md5($botToken));
 
         $psr6Cache = new FilesystemAdapter('telegram_bot', '0', $cacheDirectory);
         $psr16Cache = new Psr16Cache($psr6Cache);
