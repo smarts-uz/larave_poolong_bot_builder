@@ -18,7 +18,7 @@ class TgGroupResource extends Resource
 	public static string $model = TgGroup::class;
 
 	public static string $title = 'TgGroups';
-    public static array $activeActions = ['show'];
+//    public static array $activeActions = ['show'];
 	public function fields(): array
 	{
 		return [
