@@ -62,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => \MoonShine\Models\MoonshineUser::class,
+            'model' => \App\Models\User::class,
         ],
 
         // 'users' => [

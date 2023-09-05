@@ -31,6 +31,7 @@ class PostResource extends Resource
 
 	public static string $title = 'Posts';
     public string $titleField = 'id';
+//    public static bool $withPolicy = true;
 
 	public function fields(): array
 	{
@@ -38,7 +39,7 @@ class PostResource extends Resource
             Grid::make([
                Column::make([
                    Block::make(trans('moonshine::ui.custom.basic_info'),[
-                       Text::make(trans('moonshine::ui.custom.post_title'),'title')->required()->showOnExport()->useOnImport(),
+                       Text::make(trans('moonshine::ui.custom.post_title'),'title')->required()->showOnExport()->useOnImport()->canSee(),
                        Textarea::make(trans('moonshine::ui.custom.content'),'content')->required()->showOnExport()->useOnImport(),
                    ]),
                ]),

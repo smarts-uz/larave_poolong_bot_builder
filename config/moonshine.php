@@ -61,11 +61,9 @@ return [
     ],
     'header' => null, // blade path
     'footer' => [
-        'copyright' => 'Made with ❤️ by <a href="https://cutcode.dev" class="font-semibold text-purple hover:text-pink" target="_blank">CutCode</a>',
+        'copyright' => '',
         'nav' => [
-            'https://github.com/moonshine-software/moonshine/blob/1.5.x/LICENSE.md' => 'License',
-            'https://moonshine.cutcode.dev' => 'Documentation',
-            'https://github.com/moonshine-software/moonshine' => 'GitHub',
+
         ],
     ],
 ];

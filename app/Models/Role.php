@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Role extends Model
 {
     use SoftDeletes;
+
+    protected $table = 'user_roles';
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'role_id');
+    }
 }
