@@ -12,6 +12,7 @@ class PostPolicy
 
     public function viewAny(User $user)
     {
+        return true;
     }
 
     public function view(User $user, Post $post)

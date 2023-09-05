@@ -2,6 +2,7 @@
 
 namespace App\MoonShine\Resources;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Post;
@@ -31,7 +32,7 @@ class PostResource extends Resource
 
 	public static string $title = 'Posts';
     public string $titleField = 'id';
-//    public static bool $withPolicy = true;
+    public static bool $withPolicy = true;
 
 	public function fields(): array
 	{
@@ -39,7 +40,7 @@ class PostResource extends Resource
             Grid::make([
                Column::make([
                    Block::make(trans('moonshine::ui.custom.basic_info'),[
-                       Text::make(trans('moonshine::ui.custom.post_title'),'title')->required()->showOnExport()->useOnImport()->canSee(),
+                       Text::make(trans('moonshine::ui.custom.post_title'),'title')->required()->showOnExport()->useOnImport(),
                        Textarea::make(trans('moonshine::ui.custom.content'),'content')->required()->showOnExport()->useOnImport(),
                    ]),
                ]),
@@ -65,7 +66,7 @@ class PostResource extends Resource
                                            '3gp',
                                            'webm',
                                        ]),
-                               ])->hideOnIndex()->fullPage()->required(),
+                               ])->hideOnIndex()->fullPage()->required()->hidden(),
                            ]),
                        ])->columnSpan(6),
                        Column::make([
@@ -93,8 +94,16 @@ class PostResource extends Resource
             ]),
         ];
 	}
+    public function getActiveActions(): array
+    {
+        if (auth()->id() != $this->getItem()?->user_id) {
+            return array_merge(static::$activeActions, ['delete']);
+        }
+        return static::$activeActions;
+    }
 
-	public function rules(Model $item): array
+
+    public function rules(Model $item): array
 	{
 	    return [];
     }
@@ -102,6 +111,10 @@ class PostResource extends Resource
     public function search(): array
     {
         return ['id'];
+    }
+    public function query(): Builder
+    {
+        return parent::query()->where('user_id', auth()->user()->id);
     }
 
     public function filters(): array

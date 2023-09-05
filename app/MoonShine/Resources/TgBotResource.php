@@ -8,6 +8,7 @@ use App\Models\TgBotText;
 use App\Services\BotSetWebhookService;
 use App\Services\TelegramBotService;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TgBot;
 
@@ -34,9 +35,9 @@ class TgBotResource extends Resource
 		return [
 		    ID::make()->sortable(),
             Text::make('Bot Token','bot_token')->hideOnIndex(),
-            Url::make('Base Url','base_url')->required(),
+            Url::make('Base Url','base_url')->required()->hideOnIndex(),
             Text::make('Bot Username','bot_username')->hideOnCreate()->hideOnUpdate(),
-            HasMany::make('BotGroup','groups',new TgGroupResource())->resourceMode(),
+            HasMany::make('BotGroup','groups',new TgGroupResource())->resourceMode()->hideOnIndex()->hideOnUpdate(),
         ];
 	}
 
@@ -60,6 +61,10 @@ class TgBotResource extends Resource
         return [
             FiltersAction::make(trans('moonshine::ui.filters')),
         ];
+    }
+    public function query(): Builder
+    {
+        return parent::query()->where('user_id', auth()->user()->id);
     }
 
     public function beforeCreating(Model $item)

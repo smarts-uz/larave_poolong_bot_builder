@@ -27,7 +27,6 @@ class TelegramUserResource extends Resource
             Text::make(trans('moonshine::ui.custom.last_name'),'last_name')->useOnImport()->showOnExport(),
             Text::make('Username','username')->useOnImport()->showOnExport(),
             Text::make('Telegram Id','telegram_id')->useOnImport()->showOnExport(),
-
         ];
 	}
 

@@ -34,12 +34,10 @@ class MoonShineServiceProvider extends ServiceProvider
 
                 ])->icon('heroicons.chat-bubble-bottom-center-text'),
 
-            MenuGroup::make( trans('moonshine::ui.custom.users'),[
 
-                MenuItem::make(trans('moonshine::ui.custom.users'),new TelegramUserResource())
-                    ->icon('heroicons.user'),
+            MenuItem::make(trans('moonshine::ui.custom.users'),new TelegramUserResource())
+                ->icon('heroicons.user-group'),
 
-                ])->icon('heroicons.user-group'),
             MenuGroup::make(trans('moonshine::ui.custom.report'),[
 
                 MenuItem::make('Post-Users',new PostUserResource())

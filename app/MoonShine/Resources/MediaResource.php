@@ -3,6 +3,9 @@
 namespace App\MoonShine\Resources;
 
 use App\Models\BotButton;
+use App\Models\Post;
+use App\Models\TgBot;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Media;
 
@@ -52,6 +55,13 @@ class MediaResource extends Resource
     public function filters(): array
     {
         return [];
+    }
+    public function query(): Builder
+    {
+        $bots = Post::where('user_id', auth()->user()->id)->get();
+        $botIds = $bots->pluck('id');
+
+        return parent::query()->whereIn('post_id', $botIds);
     }
 
     public function actions(): array
