@@ -34,7 +34,7 @@ class PostResource extends Resource
 
 	public static string $title = 'Posts';
     public string $titleField = 'id';
-    public static bool $withPolicy = true;
+//    public static bool $withPolicy = true;
 
 	public function fields(): array
 	{
@@ -68,7 +68,7 @@ class PostResource extends Resource
                                            '3gp',
                                            'webm',
                                        ]),
-                               ])->hideOnIndex()->fullPage()->required()->hidden(),
+                               ])->hideOnIndex()->fullPage()->required(),
                            ]),
                        ])->columnSpan(6),
                        Column::make([

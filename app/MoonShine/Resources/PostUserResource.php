@@ -3,7 +3,9 @@
 namespace App\MoonShine\Resources;
 
 use App\Models\BotButton;
+use App\Models\TgBot;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PostUser;
 
@@ -63,6 +65,13 @@ class PostUserResource extends Resource
     public function filters(): array
     {
         return [];
+    }
+    public function query(): Builder
+    {
+        $bots = TgBot::where('user_id', auth()->user()->id)->get();
+        $botIds = $bots->pluck('id');
+
+        return parent::query()->whereIn('bot_id', $botIds);
     }
 
     public function actions(): array

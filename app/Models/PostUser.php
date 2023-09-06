@@ -11,7 +11,7 @@ class PostUser extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $fillable = ['tg_user_id','tg_post_id','tg_button_id'];
+    protected $fillable = ['tg_user_id','tg_post_id','tg_button_id','bot_id'];
     protected $table = 'tg_post_users';
 
     public function posts(): BelongsTo

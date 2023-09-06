@@ -123,6 +123,7 @@ class TelegramBotService
                     'tg_user_id' => $user->id,
                     'tg_post_id' => $post->id,
                     'tg_button_id' => $button->id,
+                    'bot_id' => $post->bot_id,
                 ])->save();
                 $button->increment('count');
                 return 'notRated';

@@ -9,7 +9,7 @@ class TelegramUser extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['telegram_id','first_name','last_name','username','user_status'];
+    protected $fillable = ['telegram_id','first_name','last_name','username','user_status','bot_id'];
     protected $table = 'tg_users';
 
     public function posts()
