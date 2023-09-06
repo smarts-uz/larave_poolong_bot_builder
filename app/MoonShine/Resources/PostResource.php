@@ -2,6 +2,8 @@
 
 namespace App\MoonShine\Resources;
 
+use App\Models\BotButton;
+use App\Models\Media;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -81,7 +83,7 @@ class PostResource extends Resource
 
                         Column::make([
                             Block::make('Bots',[
-                                BelongsTo::make('Bot','bot','bot_username'),
+                                BelongsTo::make('Bot','bot','bot_username')->required(),
 //                                BelongsTo::make('Group','group',new TgGroupResource())
                             ])
                         ]),
@@ -124,6 +126,11 @@ class PostResource extends Resource
     public function beforeCreating(Model $item)
     {
         $item->user_id = request()->user()->id;
+    }
+    protected function afterDeleted(Model $item)
+    {
+        $media = Media::where('post_id', $item->id)->delete();
+        $buttons = BotButton::where('post_id',$item->id)->delete();
     }
 
     public function actions(): array

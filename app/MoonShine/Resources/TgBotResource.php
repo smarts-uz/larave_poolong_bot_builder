@@ -5,6 +5,7 @@ namespace App\MoonShine\Resources;
 
 use App\Jobs\ArtisanJob;
 use App\Models\TgBotText;
+use App\Models\TgGroup;
 use App\Services\BotSetWebhookService;
 use App\Services\TelegramBotService;
 use Barryvdh\Debugbar\Facades\Debugbar;
@@ -34,7 +35,7 @@ class TgBotResource extends Resource
 	{
 		return [
 		    ID::make()->sortable(),
-            Text::make('Bot Token','bot_token')->hideOnIndex(),
+            Text::make('Bot Token','bot_token')->hideOnIndex()->required(),
             Url::make('Base Url','base_url')->required()->hideOnIndex(),
             Text::make('Bot Username','bot_username')->hideOnCreate()->hideOnUpdate(),
             HasMany::make('BotGroup','groups',new TgGroupResource())->resourceMode()->hideOnIndex()->hideOnUpdate(),
@@ -70,6 +71,11 @@ class TgBotResource extends Resource
     public function beforeCreating(Model $item)
     {
         $item->user_id = request()->user()->id;
+    }
+    protected function afterDeleted(Model $item)
+    {
+        $botText = TgBotText::where('bot_id', $item->id)->delete();
+        $botGroups = TgGroup::where('tg_bot_id',$item->id)->delete();
     }
     protected function afterCreated(Model $item)
     {
