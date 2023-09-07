@@ -1,0 +1,11 @@
+{
+    "name": "FeedbackBot",
+    "alias": "feedbackbot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\FeedbackBot\\Providers\\FeedbackBotServiceProvider"
+    ],
+    "files": []
+}

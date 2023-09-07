@@ -1,0 +1,11 @@
+{
+    "name": "PoolingBot",
+    "alias": "poolingbot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PoolingBot\\Providers\\PoolingBotServiceProvider"
+    ],
+    "files": []
+}
