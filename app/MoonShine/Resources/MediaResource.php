@@ -36,7 +36,12 @@ class MediaResource extends Resource
                 ->showOnExport()
                 ->allowedExtensions(['jpg', 'gif', 'png']),
             Text::make(trans('moonshine::ui.custom.post_title'),'id', function (Media $media) {
+                if (!empty($media->post->title)) {
+
                 return $media->post->title;
+                } else {
+                    return null;
+                }
             })->hideOnCreate()->hideOnUpdate(),
             BelongsTo::make(trans('moonshine::ui.custom.post_title'), 'post')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnUpdate(),
         ];
