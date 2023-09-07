@@ -61,8 +61,16 @@ class TelegramBotService
                             'caption' => $post->content,
                             'reply_markup' => $keyboard,
                         ]);
+
+                        $isChannel = $message->chat->isChannel();
+
+
+                        if ($isChannel) {
+                            $this->saveChatId($post, $message);
+                        }
+
                         $this->fileCheckService->closeFile($photo);
-                        $this->saveChatId($post, $message);
+                        $this->saveMessageId($post, $message);
                     }
 
                 }
@@ -80,9 +88,15 @@ class TelegramBotService
                             'caption' => $post->content,
                             'reply_markup' => $keyboard,
                         ]);
+                        $isChannel = $message->chat->isChannel();
+
+
+                        if ($isChannel) {
+                            $this->saveChatId($post, $message);
+                        }
 
                         $this->fileCheckService->closeFile($photo);
-                        $this->saveChatId($post, $message);
+                        $this->saveMessageId($post, $message);
                     }
                 }
                 break;
@@ -104,10 +118,36 @@ class TelegramBotService
         }
     }
 
-    public function saveChatId($post, $message)
+    public function saveMessageId($post, $message)
     {
         $post->tg_message_id = $message->message_id;
         $post->saveQuietly();
+    }
+    public function saveChatId($post, $message)
+    {
+        $post->tg_chat_title = $message->chat->username;
+        $post->tg_groups_id = $message->chat->id;
+        $post->saveQuietly();
+    }
+    public function createPostTgUrl($post)
+    {
+        $tgChatTitle = $post->tg_chat_title;
+        $tgMessageId = $post->tg_message_id;
+
+        $post->tg_public_url = "https://t.me/{$tgChatTitle}/{$tgMessageId}";
+        $post->saveQuietly();
+    }
+    public function botEditeMessage(Nutgram $bot, $chatId, $messageId, $caption,$post)
+    {
+        $keyboard = $this->buttonService->botCreateInlineButtons($post);
+
+        $bot->editMessageCaption([
+            'chat_id' => $chatId,
+            'message_id' => $messageId,
+            'caption' => $caption,
+            'reply_markup' => $keyboard,
+            'parse_mode' => 'html',
+        ]);
     }
 
     public function buttonsAction($messageId, $callbackData, $userId)
