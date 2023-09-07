@@ -2,16 +2,15 @@
 
 namespace App\MoonShine\Resources;
 
-use App\Models\BotButton;
-use App\Models\Media;
-use Barryvdh\Debugbar\Facades\Debugbar;
+
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Post;
-
+use Modules\PoolingBot\Entities\BotButton;
+use Modules\PoolingBot\Entities\Media;
+use Modules\PoolingBot\Entities\Post;
 use MoonShine\Actions\ExportAction;
+use MoonShine\Actions\FiltersAction;
 use MoonShine\Actions\ImportAction;
-use MoonShine\CKEditor\Fields\CKEditor;
 use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Grid;
@@ -19,14 +18,11 @@ use MoonShine\Fields\BelongsTo;
 use MoonShine\Fields\File;
 use MoonShine\Fields\HasMany;
 use MoonShine\Fields\HasOne;
+use MoonShine\Fields\ID;
 use MoonShine\Fields\SwitchBoolean;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\Textarea;
-use MoonShine\Fields\TinyMce;
 use MoonShine\Resources\Resource;
-use MoonShine\Fields\ID;
-use MoonShine\Actions\FiltersAction;
-use MoonShine\Trix\Fields\Trix;
 
 class PostResource extends Resource
 {

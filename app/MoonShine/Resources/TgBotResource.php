@@ -3,25 +3,20 @@
 namespace App\MoonShine\Resources;
 
 
-use App\Jobs\ArtisanJob;
-use App\Models\TgBotText;
-use App\Models\TgGroup;
-use App\Services\BotSetWebhookService;
-use App\Services\TelegramBotService;
-use Barryvdh\Debugbar\Facades\Debugbar;
+
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TgBot;
-
-use Illuminate\Support\Facades\Artisan;
-use MoonShine\Fields\BelongsTo;
+use Modules\PoolingBot\Entities\TgBot;
+use Modules\PoolingBot\Entities\TgBotText;
+use Modules\PoolingBot\Entities\TgGroup;
+use Modules\PoolingBot\Services\BotSetWebhookService;
+use MoonShine\Actions\FiltersAction;
 use MoonShine\Fields\HasMany;
+use MoonShine\Fields\ID;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\Url;
 use MoonShine\ItemActions\ItemAction;
 use MoonShine\Resources\Resource;
-use MoonShine\Fields\ID;
-use MoonShine\Actions\FiltersAction;
 
 class TgBotResource extends Resource
 {

@@ -2,18 +2,16 @@
 
 namespace App\MoonShine\Resources;
 
-use App\Models\TgBot;
+
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TgGroup;
-
-use MoonShine\Fields\BelongsTo;
-use MoonShine\Fields\HasMany;
+use Modules\PoolingBot\Entities\TgBot;
+use Modules\PoolingBot\Entities\TgGroup;
+use MoonShine\Actions\FiltersAction;
+use MoonShine\Fields\ID;
 use MoonShine\Fields\SwitchBoolean;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\Resource;
-use MoonShine\Fields\ID;
-use MoonShine\Actions\FiltersAction;
 
 class TgGroupResource extends Resource
 {

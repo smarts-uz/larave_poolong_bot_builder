@@ -2,12 +2,13 @@
 
 namespace App\MoonShine;
 
-use App\Models\BotButton;
-use App\Models\Media;
-use App\Models\Post;
-use App\Models\TelegramUser;
-use App\Models\TgBot;
+
 use App\MoonShine\Resources\PostResource;
+use Modules\PoolingBot\Entities\BotButton;
+use Modules\PoolingBot\Entities\Media;
+use Modules\PoolingBot\Entities\Post;
+use Modules\PoolingBot\Entities\TelegramUser;
+use Modules\PoolingBot\Entities\TgBot;
 use MoonShine\Dashboard\DashboardBlock;
 use MoonShine\Dashboard\DashboardScreen;
 use MoonShine\Dashboard\ResourcePreview;
@@ -33,13 +34,13 @@ class Dashboard extends DashboardScreen
 
                 ValueMetric::make('Buttons')
                     ->value(BotButton::query()
-                        ->where('post_id',$postIds)
+                        ->whereIn('post_id',$postIds)
                         ->count())
                     ->columnSpan(4),
 
                 ValueMetric::make('Medias')
                     ->value(Media::query()
-                        ->where('post_id',$postIds)
+                        ->whereIn('post_id',$postIds)
                         ->count())
                     ->columnSpan(4),
             ]),
@@ -54,7 +55,7 @@ class Dashboard extends DashboardScreen
 
                 DonutChartMetric::make('Subscribers')
                 ->values(['Telegram Users' => TelegramUser::query()
-                    ->where('bot_id',$botIds)
+                    ->whereIn('bot_id',$botIds)
                     ->count()])
                     ->columnSpan(6),
             ]),

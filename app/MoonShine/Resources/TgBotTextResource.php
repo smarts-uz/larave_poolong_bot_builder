@@ -2,17 +2,17 @@
 
 namespace App\MoonShine\Resources;
 
-use App\Models\TgBot;
-use Barryvdh\Debugbar\Facades\Debugbar;
+
+
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TgBotText;
-
+use Modules\PoolingBot\Entities\TgBot;
+use Modules\PoolingBot\Entities\TgBotText;
+use MoonShine\Actions\FiltersAction;
 use MoonShine\Fields\HasOne;
+use MoonShine\Fields\ID;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\Resource;
-use MoonShine\Fields\ID;
-use MoonShine\Actions\FiltersAction;
 
 class TgBotTextResource extends Resource
 {
@@ -28,7 +28,7 @@ class TgBotTextResource extends Resource
             Text::make('First Action Message','first_action_msg')->required(),
             Text::make('Repeated Action Message','repeated_action_msg')->required(),
             Text::make('Unfollow Users Message','follow_msg')->required(),
-            HasOne::make('Bot','bots',new TgBotResource())
+            HasOne::make('Bot','bots',new TgBotResource()),
         ];
 	}
 

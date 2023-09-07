@@ -2,19 +2,17 @@
 
 namespace App\MoonShine\Resources;
 
-use App\Models\BotButton;
-use App\Models\TgBot;
-use Barryvdh\Debugbar\Facades\Debugbar;
+
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PostUser;
-
+use Modules\PoolingBot\Entities\PostUser;
+use Modules\PoolingBot\Entities\TgBot;
 use MoonShine\Actions\ExportAction;
+use MoonShine\Actions\FiltersAction;
 use MoonShine\Actions\ImportAction;
+use MoonShine\Fields\ID;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\Resource;
-use MoonShine\Fields\ID;
-use MoonShine\Actions\FiltersAction;
 
 class PostUserResource extends Resource
 {

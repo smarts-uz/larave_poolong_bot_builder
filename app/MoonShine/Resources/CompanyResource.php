@@ -2,24 +2,14 @@
 
 namespace App\MoonShine\Resources;
 
-use App\Models\Post;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Company;
-
-use MoonShine\Dashboard\DashboardBlock;
-use MoonShine\Dashboard\ResourcePreview;
-use MoonShine\Decorations\Block;
-use MoonShine\Fields\BelongsTo;
-use MoonShine\Fields\Date;
-use MoonShine\Fields\File;
-use MoonShine\Fields\HasMany;
-use MoonShine\Fields\HasManyThrough;
-use MoonShine\Fields\Text;
-use MoonShine\Fields\Textarea;
-use MoonShine\Filters\BelongsToManyFilter;
-use MoonShine\Resources\Resource;
-use MoonShine\Fields\ID;
+use Illuminate\Database\Eloquent\Model;
 use MoonShine\Actions\FiltersAction;
+use MoonShine\Decorations\Block;
+use MoonShine\Fields\Date;
+use MoonShine\Fields\ID;
+use MoonShine\Fields\Text;
+use MoonShine\Resources\Resource;
 
 class CompanyResource extends Resource
 {

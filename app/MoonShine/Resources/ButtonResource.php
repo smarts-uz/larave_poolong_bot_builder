@@ -2,12 +2,13 @@
 
 namespace App\MoonShine\Resources;
 
-use App\Models\BotButton;
-use App\Models\Post;
+
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 
+use Modules\PoolingBot\Entities\BotButton;
+use Modules\PoolingBot\Entities\Post;
 use MoonShine\Actions\ExportAction;
 use MoonShine\Actions\ImportAction;
 use MoonShine\Fields\BelongsTo;

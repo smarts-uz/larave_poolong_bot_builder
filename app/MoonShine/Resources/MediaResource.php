@@ -2,21 +2,19 @@
 
 namespace App\MoonShine\Resources;
 
-use App\Models\BotButton;
-use App\Models\Post;
-use App\Models\TgBot;
+
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Media;
-
+use Modules\PoolingBot\Entities\Media;
+use Modules\PoolingBot\Entities\Post;
 use MoonShine\Actions\ExportAction;
+use MoonShine\Actions\FiltersAction;
 use MoonShine\Actions\ImportAction;
 use MoonShine\Fields\BelongsTo;
 use MoonShine\Fields\File;
+use MoonShine\Fields\ID;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\Resource;
-use MoonShine\Fields\ID;
-use MoonShine\Actions\FiltersAction;
 
 class MediaResource extends Resource
 {

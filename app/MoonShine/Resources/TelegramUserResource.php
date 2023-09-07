@@ -2,11 +2,13 @@
 
 namespace App\MoonShine\Resources;
 
-use App\Models\TgBot;
+
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TelegramUser;
 
+
+use Modules\PoolingBot\Entities\TelegramUser;
+use Modules\PoolingBot\Entities\TgBot;
 use MoonShine\Actions\ExportAction;
 use MoonShine\Actions\ImportAction;
 use MoonShine\Fields\Text;
