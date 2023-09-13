@@ -4,6 +4,8 @@ namespace App\MoonShine;
 
 
 use App\MoonShine\Resources\PostResource;
+use Modules\FeedbackBot\Entities\FeedbackUserChat;
+use Modules\FeedbackBot\Entities\TelegramBot;
 use Modules\PoolingBot\Entities\BotButton;
 use Modules\PoolingBot\Entities\Media;
 use Modules\PoolingBot\Entities\Post;
@@ -24,6 +26,9 @@ class Dashboard extends DashboardScreen
 
         $bots = TgBot::query()->where('user_id', auth()->user()->id)->get();
         $botIds = $bots->pluck('id');
+
+        $fbBots = TelegramBot::query()->where('user_id', auth()->user()->id)->get();
+        $fbBotIds = $fbBots->pluck('id');
 
 		return [
             DashboardBlock::make([
@@ -48,15 +53,21 @@ class Dashboard extends DashboardScreen
             DashboardBlock::make([
 
                 DonutChartMetric::make('Bots')
-                    ->values(['Bots' => TgBot::query()
+                    ->values(['Pooling Bots' => TgBot::query()
                         ->where('user_id',auth()->user()->id)
-                        ->count()])
+                        ->count(),
+                        'Feedback Bots' => TelegramBot::query()
+                            ->where('user_id', auth()->user()->id)
+                            ->count()])
                     ->columnSpan(6),
 
                 DonutChartMetric::make('Subscribers')
-                ->values(['Telegram Users' => TelegramUser::query()
+                ->values(['Pooling Bot Users' => TelegramUser::query()
                     ->whereIn('bot_id',$botIds)
-                    ->count()])
+                    ->count(),
+                    'Feedback Bot Users' => FeedbackUserChat::query()
+                        ->whereIn('botid',$fbBotIds)
+                        ->count()])
                     ->columnSpan(6),
             ]),
             DashboardBlock::make([

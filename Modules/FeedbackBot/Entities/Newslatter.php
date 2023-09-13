@@ -4,12 +4,13 @@ namespace Modules\FeedbackBot\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Translatable\HasTranslations;
 
 class Newslatter extends Model
 {
     use HasFactory;
 
-    use HasFactory, Translatable;
+    use HasFactory, HasTranslations;
 
     protected $table = 'fb_newslatter_translate';
 

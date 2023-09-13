@@ -5,6 +5,7 @@ namespace Modules\FeedbackBot\InlineMenu\BaseBot;
 use Modules\FeedbackBot\Entities\FeedbackUserChat;
 use Modules\FeedbackBot\Entities\Newslatter;
 use Modules\FeedbackBot\Jobs\BulkMessengerJob;
+use Modules\FeedbackBot\Services\BaseBotService;
 use Modules\FeedbackBot\Services\BotFatherService;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
@@ -24,21 +25,24 @@ class NewsletterMenu extends InlineMenu
     public function start(Nutgram $bot)
     {
         $userId = $bot->user()->id;
+        $botId = $bot->getMe()->id;
 
-        $service = new BotFatherService();
-        $value =  $service->getLanguage($userId);
+        $service = new BaseBotService();
+        $value =  $service->getLanguage($userId,$botId);
 
         $this->userLocale = $value;
-        $this->botText = Newslatter::withTranslation($this->userLocale)->first();
+
+        $this->botText = Newslatter::query()->where('id',1)->first();
+        //$this->botInputText = $this->botJsonText->getTranslation('user_bot_input_text', $this->userLocale,false);
 
         $this->clearButtons();
-        $this->menuText($this->botText->getTranslatedAttribute('main_menu_text',$this->userLocale,'fallbackLocale'), [
+        $this->menuText($this->botText->getTranslation('main_menu_text',$this->userLocale,false), [
             'parse_mode' => ParseMode::HTML,
             'disable_web_page_preview' => true,
         ]);
 
         $this->addButtonRow(
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('main_menu_all_button',$this->userLocale,'fallbackLocale'), callback_data: 'allUser@allUserSender')
+            InlineKeyboardButton::make($this->botText->getTranslation('main_menu_all_button',$this->userLocale,false), callback_data: 'allUser@allUserSender')
         );
         $this->addButtonRow(
             InlineKeyboardButton::make('Русский 🇷🇺', callback_data: 'ruUser@ruUserSender'),
@@ -46,7 +50,7 @@ class NewsletterMenu extends InlineMenu
             InlineKeyboardButton::make("O'zbek 🇺🇿", callback_data: 'uzUser@uzUserSender'),
         );
         $this->addButtonRow(
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('cancel_button',$this->userLocale,'fallbackLocale'), callback_data: 'cancel@cancelNewsletter')
+            InlineKeyboardButton::make($this->botText->getTranslation('cancel_button',$this->userLocale,false), callback_data: 'cancel@cancelNewsletter')
         );
 
         $this->showMenu();
@@ -58,14 +62,14 @@ class NewsletterMenu extends InlineMenu
         $userCount = count($this->allUsers);
         $this->clearButtons();
 
-        $this->menuText($this->botText->getTranslatedAttribute('all_menu_text',$this->userLocale,'fallbackLocale') . $userCount, [
+        $this->menuText($this->botText->getTranslation('all_menu_text',$this->userLocale,false) . $userCount, [
             'parse_mode' => ParseMode::HTML,
             'disable_web_page_preview' => true,
         ])
             ->orNext('setAllUserSender');
 
         $this->addButtonRow(
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('cancel_button',$this->userLocale,'fallbackLocale'), callback_data: 'cancel@cancelNewsletter')
+            InlineKeyboardButton::make($this->botText->getTranslation('cancel_button',$this->userLocale,false), callback_data: 'cancel@cancelNewsletter')
         );
 
         $this->showMenu();
@@ -83,17 +87,17 @@ class NewsletterMenu extends InlineMenu
         $this->closeMenu();
         $this->clearButtons();
 
-        $this->menuText($this->botText->getTranslatedAttribute('save_message_text',$this->userLocale,'fallbackLocale'), [
+        $this->menuText($this->botText->getTranslation('save_message_text',$this->userLocale,false), [
             'parse_mode' => ParseMode::HTML,
             'disable_web_page_preview' => true,
         ]);
 
         $this->addButtonRow(
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('preview_button',$this->userLocale,'fallbackLocale'), callback_data: 'preview@previewNewsletter'),
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('cancel_button',$this->userLocale,'fallbackLocale'), callback_data: 'cancel@cancelNewsletter')
+            InlineKeyboardButton::make($this->botText->getTranslation('preview_button',$this->userLocale,false), callback_data: 'preview@previewNewsletter'),
+            InlineKeyboardButton::make($this->botText->getTranslation('cancel_button',$this->userLocale,false), callback_data: 'cancel@cancelNewsletter')
         );
         $this->addButtonRow(
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('start_newslatter_button',$this->userLocale,'fallbackLocale'), callback_data: 'startNewsletter@startAllNewsletter')
+            InlineKeyboardButton::make($this->botText->getTranslation('start_newslatter_button',$this->userLocale,false), callback_data: 'startNewsletter@startAllNewsletter')
         );
         $this->showMenu();
 
@@ -103,7 +107,7 @@ class NewsletterMenu extends InlineMenu
     {
         $this->closeMenu();
         $this->closeMenu();
-        $bot->sendMessage($this->botText->getTranslatedAttribute('newslatter_preview_text',$this->userLocale,'fallbackLocale'));
+        $bot->sendMessage($this->botText->getTranslation('newslatter_preview_text',$this->userLocale,false));
         $bot->copyMessage($this->currentChatId, $this->fromChatId,$this->msgId);
         $this->showPreviewMenu($bot);
     }
@@ -113,17 +117,17 @@ class NewsletterMenu extends InlineMenu
         $this->closeMenu();
         $this->clearButtons();
 
-        $this->menuText($this->botText->getTranslatedAttribute('save_message_text',$this->userLocale,'fallbackLocale'), [
+        $this->menuText($this->botText->getTranslation('save_message_text',$this->userLocale,false), [
             'parse_mode' => ParseMode::HTML,
             'disable_web_page_preview' => true,
         ]);
 
         $this->addButtonRow(
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('preview_button',$this->userLocale,'fallbackLocale'), callback_data: 'preview@previewNewsletter'),
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('cancel_button',$this->userLocale,'fallbackLocale'), callback_data: 'cancel@cancelNewsletter')
+            InlineKeyboardButton::make($this->botText->getTranslation('preview_button',$this->userLocale,false), callback_data: 'preview@previewNewsletter'),
+            InlineKeyboardButton::make($this->botText->getTranslation('cancel_button',$this->userLocale,false), callback_data: 'cancel@cancelNewsletter')
         );
         $this->addButtonRow(
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('start_newslatter_button',$this->userLocale,'fallbackLocale'), callback_data: 'startNewsletter@startAllNewsletter')
+            InlineKeyboardButton::make($this->botText->getTranslation('start_newslatter_button',$this->userLocale,false), callback_data: 'startNewsletter@startAllNewsletter')
         );
         $this->showMenu();
     }
@@ -138,13 +142,13 @@ class NewsletterMenu extends InlineMenu
 
         $this->clearButtons();
 
-        $this->menuText($this->botText->getTranslatedAttribute('ru_menu_text',$this->userLocale,'fallbackLocale') . $userCount, [
+        $this->menuText($this->botText->getTranslation('ru_menu_text',$this->userLocale,false) . $userCount, [
             'parse_mode' => ParseMode::HTML,
             'disable_web_page_preview' => true,
         ]);
 
         $this->addButtonRow(
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('cancel_button',$this->userLocale,'fallbackLocale'), callback_data: 'cancel@cancelNewsletter')
+            InlineKeyboardButton::make($this->botText->getTranslation('cancel_button',$this->userLocale,false), callback_data: 'cancel@cancelNewsletter')
         )->orNext('setAllUserSender');
 
         $this->showMenu();
@@ -157,13 +161,13 @@ class NewsletterMenu extends InlineMenu
 
         $this->clearButtons();
 
-        $this->menuText($this->botText->getTranslatedAttribute('en_menu_text',$this->userLocale,'fallbackLocale') . $userCount, [
+        $this->menuText($this->botText->getTranslation('en_menu_text',$this->userLocale,false) . $userCount, [
             'parse_mode' => ParseMode::HTML,
             'disable_web_page_preview' => true,
         ]);
 
         $this->addButtonRow(
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('cancel_button',$this->userLocale,'fallbackLocale'), callback_data: 'cancel@cancelNewsletter')
+            InlineKeyboardButton::make($this->botText->getTranslation('cancel_button',$this->userLocale,false), callback_data: 'cancel@cancelNewsletter')
         )->orNext('setAllUserSender');
 
         $this->showMenu();
@@ -175,13 +179,13 @@ class NewsletterMenu extends InlineMenu
 
         $this->clearButtons();
 
-        $this->menuText($this->botText->getTranslatedAttribute('uz_menu_text',$this->userLocale,'fallbackLocale') . $userCount, [
+        $this->menuText($this->botText->getTranslation('uz_menu_text',$this->userLocale,false) . $userCount, [
             'parse_mode' => ParseMode::HTML,
             'disable_web_page_preview' => true,
         ]);
 
         $this->addButtonRow(
-            InlineKeyboardButton::make($this->botText->getTranslatedAttribute('cancel_button',$this->userLocale,'fallbackLocale'), callback_data: 'cancel@cancelNewsletter')
+            InlineKeyboardButton::make($this->botText->getTranslation('cancel_button',$this->userLocale,false), callback_data: 'cancel@cancelNewsletter')
         )->orNext('setAllUserSender');
 
         $this->showMenu();

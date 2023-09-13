@@ -118,18 +118,14 @@ class BaseBotController extends Controller
             ChoseLangugage::begin($bot);
         })->description('Change language command');
 
+        $command = md5($tgBot->bot_token);
         //NewsLetter command
-        $bot->onCommand('start newsletter', function (Nutgram $bot) {
+        $bot->onCommand("start {$command}", function (Nutgram $bot) {
 
-            $userName = $bot->getMe()->username;
-            $userId = $bot->chat()->id;
 
-            $baseBotService = new BaseBotService();
-            $currentUser = $baseBotService->adminValidation($userName, $userId);
 
-            if ($currentUser == $bot->chat()->id) {
                 NewsletterMenu::begin($bot);
-            }
+
         });
 
 

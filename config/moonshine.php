@@ -15,7 +15,7 @@ return [
         'prefix' => env('MOONSHINE_ROUTE_PREFIX', 'admin'),
         'index_route' => env('MOONSHINE_INDEX_ROUTE', 'moonshine.index'),
         'middleware' => ['moonshine'],
-        'custom_page_slug' => 'custom_page',
+        'custom_page_slug' => 'section',
         'notFoundHandler' => MoonShineNotFoundException::class,
     ],
     'use_migrations' => true,
