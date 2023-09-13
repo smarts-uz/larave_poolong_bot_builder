@@ -32,9 +32,9 @@ class FeedBackConversation extends Conversation
         $value =  $lang->getLanguage($userId,$botId);
 
         $this->userLocale = $value;
-        $this->botText = FeedbackBotTextModel::withTranslation($this->userLocale)->first();
+        //$this->botText = FeedbackBotTextModel::withTranslation($this->userLocale)->first();
 
-        $this->botJsonText = TelegramBot::where('user_id', $userId)->where('bot_id' , $botId)->first();
+        $this->botJsonText = TelegramBot::where('bot_id' , $botId)->first();
 
 
         $this->botInputText = $this->botJsonText->getTranslation('user_bot_input_text', $this->userLocale,false);
@@ -49,7 +49,7 @@ class FeedBackConversation extends Conversation
 
         $message = $bot->sendMessage($this->botInputText, [
             'reply_markup' => ReplyKeyboardMarkup::make(resize_keyboard: true)
-                ->addRow(KeyboardButton::make($this->botText->getTranslatedAttribute('cancel_button',$this->userLocale,'fallbackLocale')))
+                ->addRow(KeyboardButton::make('Cancel'))
         ]);
         $this->chat_id = $message->chat->id;
         $this->message_id = $message->message_id;
@@ -60,7 +60,7 @@ class FeedBackConversation extends Conversation
 
     public function getFeedback(Nutgram $bot) : void
     {
-        if ($bot->message()?->text === $this->botText->getTranslatedAttribute('cancel_button',$this->userLocale,'fallbackLocale')){
+        if ($bot->message()?->text === 'Cancel'){
             $this->end();
             return;
         }
@@ -102,7 +102,7 @@ class FeedBackConversation extends Conversation
 
             return;
         }
-        $bot->sendMessage($this->botText->getTranslatedAttribute('cancel',$this->userLocale,'fallbackLocale'),[
+        $bot->sendMessage('Cancel',[
             'reply_markup' => ReplyKeyboardRemove::make(true),
         ]);
     }

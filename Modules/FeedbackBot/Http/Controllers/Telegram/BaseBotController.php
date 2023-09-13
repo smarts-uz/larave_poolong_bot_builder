@@ -32,7 +32,7 @@ class BaseBotController extends Controller
         //Base Bot Controller service
         $baseBotService = new BaseBotService();
 
-        TelegramBot::where('bot_id');
+        $tgBot = TelegramBot::where('id',$this->botId)->first();
 
         //Get bot token  from database
         $botToken = $baseBotService->getBotToken($id);
@@ -48,8 +48,8 @@ class BaseBotController extends Controller
         $bot = new Nutgram($this->botToken,
             ['cache' => $psr16Cache]);
 
-        //Collect feedback users to database
-        $bot->middleware(CollectFeedbackChat::class);
+        $tgBot->update(['username' => $bot->getMe()->username]);
+
 
 
 
@@ -82,6 +82,9 @@ class BaseBotController extends Controller
 
             $next($bot);
         });
+
+        //Collect feedback users to database
+        $bot->middleware(CollectFeedbackChat::class);
 
          //$bot->middleware(DisableBot::class);
         // $bot->onMyChatMember(UpdateChatStatus::class);

@@ -9,7 +9,7 @@ class TelegramUser extends Model
 {
     use HasFactory;
 
-    protected $table = 'telegram_users';
+    protected $table = 'fb_tg_users';
 
     protected $guarded = [];
 }

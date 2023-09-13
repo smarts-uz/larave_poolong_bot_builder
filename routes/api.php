@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Modules\FeedbackBot\Http\Controllers\Telegram\BaseBotController;
+use Modules\FeedbackBot\Http\Controllers\Telegram\BotFatherController;
 use Modules\PoolingBot\Http\Controllers\Telegram\BotController;
 
 /*
@@ -22,6 +24,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::match(['get', 'post'],'/telegram/{id}', [BotController::class,'handle'])->name('bot_url');
 
-//Route::match(['get', 'post'],'/telegram/{id}', [\App\Http\Controllers\Telegram\BaseBotController::class, 'handle'])->name('bot_url');
-//
-//Route::match(['get', 'post'],'/botfather', [\App\Http\Controllers\Telegram\BotFatherController::class, 'handle'])->name('bot_father');
+Route::match(['get', 'post'],'/fb/telegram/{id}', [BaseBotController::class, 'handle'])->name('fb_bot_url');
+
+Route::match(['get', 'post'],'/botfather', [BotFatherController::class, 'handle'])->name('bot_father');

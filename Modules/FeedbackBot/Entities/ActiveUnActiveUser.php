@@ -9,7 +9,7 @@ class ActiveUnActiveUser extends Model
 {
     use HasFactory;
 
-    protected $table = 'active_unactive_user';
+    protected $table = 'fb_active_unactive_user';
 
     protected $guarded = [];
 }

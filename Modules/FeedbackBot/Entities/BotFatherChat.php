@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class BotFatherChat extends Model
 {
     use HasFactory;
-    protected $table = 'bot_father_chats';
+    protected $table = 'fb_bot_father_chats';
 
     protected $fillable = [
         'chat_id',

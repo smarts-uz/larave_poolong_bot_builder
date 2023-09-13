@@ -10,7 +10,7 @@ class TelegramBot extends Model
 {
     use HasFactory, HasTranslations;
 
-    protected $table = 'telegram_bots';
+    protected $table = 'fb_tg_bots';
 //    protected static $unguarded = true;
     protected $guarded = [];
 

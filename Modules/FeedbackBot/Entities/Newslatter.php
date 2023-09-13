@@ -11,7 +11,7 @@ class Newslatter extends Model
 
     use HasFactory, Translatable;
 
-    protected $table = 'newslatter_translate';
+    protected $table = 'fb_newslatter_translate';
 
     protected $translatable = [
         'main_menu_text',

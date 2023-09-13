@@ -11,7 +11,7 @@ class TelegramUserChat extends Model
 
 
     protected static $unguarded = true;
-    protected $table = 'telegram_user_chat';
+    protected $table = 'fb_tg_user_chat';
     protected $primaryKey = 'chat_id';
     public $timestamps = false;
     public $incrementing = false;

@@ -9,8 +9,8 @@ class FeedbackUserChat extends Model
 {
     use HasFactory;
     protected static $unguarded = true;
-    protected $table = 'feedback_bot_users';
-    protected $primaryKey = 'bot_id';
+    protected $table = 'fb_bot_users';
+    protected $fillable =['botid'];
     public $timestamps = false;
     public $incrementing = false;
 }

@@ -2,6 +2,7 @@
 
 namespace Modules\FeedbackBot\Middleware;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Modules\FeedbackBot\Entities\FeedbackUserChat;
 use SergiX44\Nutgram\Nutgram;
 
@@ -11,6 +12,8 @@ class CollectFeedbackChat
     {
         $user = $bot->user();
         $botId = $bot->getMe()->id;
+        $botIDS = $bot->getData('botId');
+
         if ($user === null) {
             return;
         }
@@ -24,6 +27,7 @@ class CollectFeedbackChat
                 'username' => $user->username,
                 //'language_code' => null,
                 'blocked_at' => null,
+                'botid' => $botIDS,
             ]);
 
             if (!$chat->started_at && $bot->message()?->chat?->type === 'private') {

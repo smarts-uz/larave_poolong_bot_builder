@@ -11,7 +11,7 @@ class BotFatherTextModel extends Model
 
     use HasFactory, Translatable;
 
-    protected $table = 'father_bot_text';
+    protected $table = 'fb_father_bot_text';
     protected $translatable =[
         'main_menu_text',
         'main_menu_bot_set_button',
