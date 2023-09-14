@@ -108,6 +108,22 @@ return [
             'media'=>'Media',
             'users'=>'Users',
             'report'=>'Report',
+            'bot_settings'=>'Bot Settings',
+            'telegram_bot'=>'Telegram Bot',
+            'bot_chats'=>'Bot Chats',
+            'bot_text'=>'Bot Text',
+            'bulk_messanger'=>'Bulk Messanger',
+            'bot_messages'=>'Bot Messages',
+            ''=>'',
+            ''=>'',
+            ''=>'',
+            ''=>'',
+            ''=>'',
+            ''=>'',
+            ''=>'',
+            ''=>'',
+            ''=>'',
+            ''=>'',
         ]
 
 ];

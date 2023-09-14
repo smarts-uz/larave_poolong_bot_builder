@@ -3,6 +3,7 @@
 namespace App\MoonShine\Resources;
 
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\PoolingBot\Entities\PostUser;
@@ -24,19 +25,20 @@ class PostUserResource extends Resource
 
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
 		return [
 		    ID::make()->sortable()->showOnExport()->useOnImport(),
             Text::make('User','user_id')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnDetail(),
             Text::make('Post','post_id')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnDetail(),
             Text::make('Button','button_id')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnDetail(),
-            Text::make(trans('moonshine::ui.custom.post_title'),'id', function (PostUser $botButton) {
+            Text::make($text->getTranslation('post_title',app()->getLocale(),false),'id', function (PostUser $botButton) {
                 if (!empty($botButton->posts->title)) {
                 return $botButton->posts->title;
                 } else {
                     return null;
                 }
             })->hideOnCreate(),
-            Text::make(trans('moonshine::ui.custom.user_info'),'id', function (PostUser $botButton) {
+            Text::make($text->getTranslation('user_info',app()->getLocale(),false),'id', function (PostUser $botButton) {
                 if (!empty($botButton->users->username)) {
                     return $botButton->users->username;
                 }
@@ -48,7 +50,7 @@ class PostUserResource extends Resource
                 }
                 return 'default';
             })->hideOnCreate(),
-            Text::make(trans('moonshine::ui.custom.button_title'),'id', function (PostUser $botButton) {
+            Text::make($text->getTranslation('button_title',app()->getLocale(),false),'id', function (PostUser $botButton) {
                 if (!empty($botButton->buttons->title)) {
                 return $botButton->buttons->title;
                 } else {

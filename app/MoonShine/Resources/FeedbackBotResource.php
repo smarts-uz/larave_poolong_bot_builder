@@ -4,6 +4,7 @@ namespace App\MoonShine\Resources;
 
 
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\FeedbackBot\Entities\TelegramBot;
@@ -32,11 +33,14 @@ class FeedbackBotResource extends Resource
 
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
+
 		return [
+
 		    ID::make()->sortable()->showOnExport()->useOnImport(),
-            Text::make('Bot Token','bot_token')->hideOnIndex()->required()->showOnExport()->useOnImport(),
-            Url::make('Base Url','base_url')->required()->hideOnIndex()->showOnExport()->useOnImport(),
-            Text::make('Bot Username','username')->hideOnCreate()->hideOnUpdate()->showOnExport()->useOnImport(),
+            Text::make($text->getTranslation('bot_toke',app()->getLocale(),false),'bot_token')->hideOnIndex()->required()->showOnExport()->useOnImport(),
+            Url::make($text->getTranslation('base_url',app()->getLocale(),false),'base_url')->required()->hideOnIndex()->showOnExport()->useOnImport(),
+            Text::make($text->getTranslation('bot_username',app()->getLocale(),false),'username')->hideOnCreate()->hideOnUpdate()->showOnExport()->useOnImport(),
         ];
 	}
 

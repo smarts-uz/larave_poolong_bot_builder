@@ -4,6 +4,7 @@ namespace App\MoonShine\Resources;
 
 
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\PoolingBot\Entities\TgBot;
@@ -28,11 +29,13 @@ class TgBotResource extends Resource
 
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
+
 		return [
 		    ID::make()->sortable(),
-            Text::make('Bot Token','bot_token')->hideOnIndex()->required(),
-            Url::make('Base Url','base_url')->required()->hideOnIndex(),
-            Text::make('Bot Username','bot_username')->hideOnCreate()->hideOnUpdate(),
+            Text::make($text->getTranslation('bot_toke',app()->getLocale(),false),'bot_token')->hideOnIndex()->required(),
+            Url::make($text->getTranslation('base_url',app()->getLocale(),false),'base_url')->required()->hideOnIndex(),
+            Text::make($text->getTranslation('bot_username',app()->getLocale(),false),'bot_username')->hideOnCreate()->hideOnUpdate(),
             HasMany::make('BotGroup','groups',new TgGroupResource())->resourceMode()->hideOnIndex()->hideOnUpdate(),
         ];
 	}

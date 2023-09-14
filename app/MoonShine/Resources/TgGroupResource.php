@@ -3,6 +3,7 @@
 namespace App\MoonShine\Resources;
 
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\PoolingBot\Entities\TgBot;
@@ -21,12 +22,13 @@ class TgGroupResource extends Resource
 //    public static array $activeActions = ['show'];
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
 		return [
 		    ID::make()->sortable(),
-            Text::make('Bot Chat Title','title')->required(),
-            Text::make('Group Id','group_id')->required(),
-            Text::make('Bot','tg_bot_id')->required(),
-            SwitchBoolean::make('ON/OFF','tg_bot_on'),
+            Text::make($text->getTranslation('bot_chat_title',app()->getLocale(),false),'title')->required(),
+            Text::make($text->getTranslation('group_id',app()->getLocale(),false),'group_id')->required(),
+            Text::make($text->getTranslation('bot',app()->getLocale(),false),'tg_bot_id')->required(),
+            SwitchBoolean::make($text->getTranslation('group_on_off',app()->getLocale(),false),'tg_bot_on'),
         ];
 	}
 

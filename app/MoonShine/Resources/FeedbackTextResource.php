@@ -2,6 +2,7 @@
 
 namespace App\MoonShine\Resources;
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,12 +24,13 @@ class FeedbackTextResource extends Resource
 
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
 		return [
 		    ID::make()->sortable()->showOnExport()->useOnImport(),
-            Text::make('Bot Username','username')->required()->disabled()->showOnExport()->useOnImport(),
-            Translatable::make('Bot Input Text','user_bot_input_text')->required()->showOnExport()->useOnImport()
+            Text::make($text->getTranslation('bot',app()->getLocale(),false),'username')->required()->disabled()->showOnExport()->useOnImport(),
+            Translatable::make($text->getTranslation('bot_input_text',app()->getLocale(),false),'user_bot_input_text')->required()->showOnExport()->useOnImport()
                 ->priorityLanguages([config('app.fallback_locale'), config('app.locale'), 'en', 'ru', 'uz']),
-            Translatable::make('Bot Response Text','user_bot_response_text')->required()->showOnExport()->useOnImport()
+            Translatable::make($text->getTranslation('bot_response_text',app()->getLocale(),false),'user_bot_response_text')->required()->showOnExport()->useOnImport()
                 ->priorityLanguages([config('app.fallback_locale'), config('app.locale'), 'en', 'ru', 'uz']),
         ];
 	}

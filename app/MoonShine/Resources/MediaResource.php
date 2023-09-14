@@ -3,6 +3,7 @@
 namespace App\MoonShine\Resources;
 
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\PoolingBot\Entities\Media;
@@ -24,16 +25,17 @@ class MediaResource extends Resource
     public static array $activeActions = ['show','delete','edit'];
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
 		return [
 		    ID::make()->sortable()->showOnIndex()->useOnImport()->showOnExport(),
-            File::make(trans('moonshine::ui.custom.file'),'file_name')
+            File::make($text->getTranslation('file',app()->getLocale(),false),'file_name')
                 ->dir('/mediad')
                 ->keepOriginalFileName()
                 ->removable()
                 ->useOnImport()
                 ->showOnExport()
                 ->allowedExtensions(['jpg', 'gif', 'png']),
-            Text::make(trans('moonshine::ui.custom.post_title'),'id', function (Media $media) {
+            Text::make($text->getTranslation('post_title',app()->getLocale(),false),'id', function (Media $media) {
                 if (!empty($media->post->title)) {
 
                 return $media->post->title;
@@ -41,7 +43,7 @@ class MediaResource extends Resource
                     return null;
                 }
             })->hideOnCreate()->hideOnUpdate(),
-            BelongsTo::make(trans('moonshine::ui.custom.post_title'), 'post')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnUpdate(),
+            BelongsTo::make($text->getTranslation('post_title',app()->getLocale(),false), 'post')->showOnExport()->useOnImport()->hideOnIndex()->hideOnCreate()->hideOnUpdate(),
         ];
 	}
 

@@ -4,6 +4,7 @@ namespace App\MoonShine\Resources;
 
 
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\PoolingBot\Entities\TgBot;
@@ -23,12 +24,13 @@ class TgBotTextResource extends Resource
 
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
 		return [
 		    ID::make()->sortable(),
-            Text::make('First Action Message','first_action_msg')->required(),
-            Text::make('Repeated Action Message','repeated_action_msg')->required(),
-            Text::make('Unfollow Users Message','follow_msg')->required(),
-            HasOne::make('Bot','bots',new TgBotResource()),
+            Text::make($text->getTranslation('first_action_message',app()->getLocale(),false),'first_action_msg')->required(),
+            Text::make($text->getTranslation('repeated_action_message',app()->getLocale(),false),'repeated_action_msg')->required(),
+            Text::make($text->getTranslation('unfollow_users_message',app()->getLocale(),false),'follow_msg')->required(),
+            HasOne::make($text->getTranslation('bot',app()->getLocale(),false),'bots',new TgBotResource()),
         ];
 	}
 

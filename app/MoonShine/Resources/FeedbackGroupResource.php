@@ -2,6 +2,7 @@
 
 namespace App\MoonShine\Resources;
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,18 +26,20 @@ class FeedbackGroupResource extends Resource
 
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
+
 		return [
 		    ID::make()->sortable()->showOnExport()->useOnImport(),
-            Text::make('Bot Chat Title','title')->required()->showOnExport()->useOnImport(),
-            Text::make('Group Id','chat_id')->required()->showOnExport()->useOnImport(),
-            Select::make('Group Language Code','language_code')->required()->showOnExport()->useOnImport()
+            Text::make($text->getTranslation('bot_chat_title',app()->getLocale(),false),'title')->required()->showOnExport()->useOnImport(),
+            Text::make($text->getTranslation('group_id',app()->getLocale(),false),'chat_id')->required()->showOnExport()->useOnImport(),
+            Select::make($text->getTranslation('group_language',app()->getLocale(),false),'language_code')->required()->showOnExport()->useOnImport()
             ->options([
                 'none' => 'none',
                 'en' => 'en',
                 'ru' => 'ru',
                 'uz' => 'uz',
             ]),
-            Text::make('Bot','telegram_bot_id')->required()->showOnExport()->useOnImport(),
+            Text::make($text->getTranslation('bot',app()->getLocale(),false),'telegram_bot_id')->required()->showOnExport()->useOnImport(),
         ];
 	}
 

@@ -3,6 +3,7 @@
 namespace App\MoonShine\Resources;
 
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\PoolingBot\Entities\BotButton;
@@ -34,20 +35,21 @@ class PostResource extends Resource
 
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
 		return [
             Grid::make([
                Column::make([
                    Block::make(trans('moonshine::ui.custom.basic_info'),[
-                       Text::make(trans('moonshine::ui.custom.post_title'),'title')->required()->showOnExport()->useOnImport(),
-                       Text::make(trans('Telegram Post Url Title'),'url_title')->required()->showOnExport()->useOnImport()->hideOnIndex(),
-                       Textarea::make(trans('moonshine::ui.custom.content'),'content')->required()->showOnExport()->useOnImport(),
+                       Text::make($text->getTranslation('post_title',app()->getLocale(),false),'title')->required()->showOnExport()->useOnImport(),
+                       Text::make($text->getTranslation('tg_post_url_title',app()->getLocale(),false),'url_title')->required()->showOnExport()->useOnImport()->hideOnIndex(),
+                       Textarea::make($text->getTranslation('post_content',app()->getLocale(),false),'content')->required()->showOnExport()->useOnImport(),
                    ]),
                ]),
                        Column::make([
-                           Block::make(trans('moonshine::ui.custom.media_content'),[
-                               HasOne::make(trans('moonshine::ui.custom.add_media'),'media')->fields([
+                           Block::make($text->getTranslation('media_content',app()->getLocale(),false),[
+                               HasOne::make($text->getTranslation('add_media',app()->getLocale(),false),'media')->fields([
                                    ID::make()->sortable()->showOnExport(),
-                                   File::make(trans('moonshine::ui.custom.file'),'file_name')
+                                   File::make($text->getTranslation('file',app()->getLocale(),false))
                                        ->dir('/media')
                                        ->keepOriginalFileName()
                                        ->removable()
@@ -69,18 +71,18 @@ class PostResource extends Resource
                            ]),
                        ])->columnSpan(6),
                        Column::make([
-                           Block::make(trans('moonshine::ui.custom.post_buttons'),[
-                               HasMany::make(trans('moonshine::ui.custom.button'),'button')->fields([
+                           Block::make($text->getTranslation('post_buttons',app()->getLocale(),false),[
+                               HasMany::make($text->getTranslation('add_button',app()->getLocale(),false),'button')->fields([
                                    ID::make(),
-                                   Text::make(trans('moonshine::ui.custom.button'),'title'),
-                                   Text::make(trans('moonshine::ui.custom.action_count'),'count')->hidden()
+                                   Text::make($text->getTranslation('buttons',app()->getLocale(),false),'title'),
+                                   Text::make($text->getTranslation('action_count',app()->getLocale(),false),'count')->hidden()
                                ])->hideOnIndex()->fullPage()->required(),
                            ]),
                        ])->columnSpan(6),
 
                         Column::make([
-                            Block::make('Bots',[
-                                BelongsTo::make('Bot','bot','bot_username')->required(),
+                            Block::make($text->getTranslation('bot',app()->getLocale(),false),[
+                                BelongsTo::make($text->getTranslation('bot',app()->getLocale(),false),'bot','bot_username')->required(),
 //                                BelongsTo::make('Group','group',new TgGroupResource())
                             ])
                         ]),

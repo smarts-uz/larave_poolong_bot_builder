@@ -2,6 +2,7 @@
 
 namespace App\MoonShine\Resources;
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,13 +25,15 @@ class FeedbackUserResource extends Resource
 
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
+
 		return [
 		    ID::make()->sortable()->showOnExport()->useOnImport(),
-            Text::make(trans('moonshine::ui.custom.first_name'),'first_name')->useOnImport()->showOnExport(),
-            Text::make(trans('moonshine::ui.custom.last_name'),'last_name')->useOnImport()->showOnExport(),
+            Text::make($text->getTranslation('user_name',app()->getLocale(),false),'first_name')->useOnImport()->showOnExport(),
+            Text::make($text->getTranslation('user_lastname',app()->getLocale(),false),'last_name')->useOnImport()->showOnExport(),
             Text::make('Username','username')->useOnImport()->showOnExport(),
             Text::make('Telegram Id','chat_id')->useOnImport()->showOnExport(),
-            Text::make('Language Code','language_code')->useOnImport()->showOnExport(),
+            Text::make($text->getTranslation('language_code',app()->getLocale(),false),'language_code')->useOnImport()->showOnExport(),
             Text::make('Started At','started_at')->useOnImport()->showOnExport(),
             Text::make('Bot Id','botid')->useOnImport()->showOnExport()->hideOnDetail()->hideOnIndex(),
         ];

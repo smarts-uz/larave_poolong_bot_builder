@@ -2,6 +2,7 @@
 
 namespace App\MoonShine\Resources;
 
+use App\Models\MoonshineTranslate;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,11 +23,13 @@ class FeedbackReportResource extends Resource
 
 	public function fields(): array
 	{
+        $text = MoonshineTranslate::query()->where('id',1)->first();
+
 		return [
 		    ID::make()->sortable()->showOnExport()->useOnImport(),
-            Text::make('Bot Username','username')->showOnExport()->useOnImport(),
-            Text::make('Bot Incoming Messages','incoming_messages')->showOnExport()->useOnImport(),
-            Text::make('Bot Response Messages','response_messages')->showOnExport()->useOnImport(),
+            Text::make($text->getTranslation('bot',app()->getLocale(),false),'username')->showOnExport()->useOnImport(),
+            Text::make($text->getTranslation('bot_incoming_messages',app()->getLocale(),false),'incoming_messages')->showOnExport()->useOnImport(),
+            Text::make($text->getTranslation('bot_response_messages',app()->getLocale(),false),'response_messages')->showOnExport()->useOnImport(),
         ];
 	}
 
