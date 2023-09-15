@@ -75,6 +75,12 @@ class NewsletterMenu extends InlineMenu
         $this->showMenu();
     }
 
+    /**
+     *
+     * Function  setAllUserSender
+     * @param Nutgram $bot
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
     public function setAllUserSender(Nutgram $bot)
     {
 

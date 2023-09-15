@@ -24,12 +24,12 @@ class AppServiceProvider extends ServiceProvider
         $appAdress = $_SERVER;
         json_encode($appAdress);
 
-
         if (array_key_exists('HTTP_X_FORWARDED_PROTO',$appAdress)) {
             $this->app['request']->server->set('HTTPS', true);
         } else {
             $this->app['request']->server->set('HTTPS', false);
         }
 
+        $this->app['request']->server->set('HTTPS', false);
     }
 }

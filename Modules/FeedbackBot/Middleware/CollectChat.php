@@ -5,6 +5,12 @@ namespace Modules\FeedbackBot\Middleware;
 use Modules\FeedbackBot\Entities\TelegramUserChat;
 use SergiX44\Nutgram\Nutgram;
 
+
+/**
+ * Class    CollectChat
+ * @package Modules\FeedbackBot\Middleware
+ *
+ */
 class CollectChat
 {
     public function __invoke(Nutgram $bot, $next): void

@@ -17,6 +17,7 @@ class TelegramBotCollectChat
         }
         //save or update chat
         //TelegramBotCollectChatJob::dispatch($user);
+
         $chat = TelegramUser::updateOrCreate([
             'telegram_id' => $user->id,
             'first_name' => $user->first_name,

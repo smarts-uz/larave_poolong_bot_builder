@@ -14,8 +14,20 @@ class BulkMessengerJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected Nutgram $bot;
+
+    /**
+     * @var array
+     */
+
     protected $chats = array();
+    /**
+     * @var array
+     */
     protected $value;
+
+    /**
+     * @var array
+     */
     protected $fromChatId;
     protected $messageId;
     /**
