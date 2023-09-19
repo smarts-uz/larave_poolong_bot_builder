@@ -49,7 +49,7 @@ class PostResource extends Resource
                            Block::make($text->getTranslation('media_content',app()->getLocale(),false),[
                                HasOne::make($text->getTranslation('add_media',app()->getLocale(),false),'media')->fields([
                                    ID::make()->sortable()->showOnExport(),
-                                   File::make($text->getTranslation('file',app()->getLocale(),false))
+                                   File::make($text->getTranslation('file',app()->getLocale(),false),'file_name')
                                        ->dir('/media')
                                        ->keepOriginalFileName()
                                        ->removable()
@@ -82,7 +82,8 @@ class PostResource extends Resource
 
                         Column::make([
                             Block::make($text->getTranslation('bot',app()->getLocale(),false),[
-                                BelongsTo::make($text->getTranslation('bot',app()->getLocale(),false),'bot','bot_username')->required(),
+                                BelongsTo::make($text->getTranslation('bot',app()->getLocale(),false),'bot','bot_username')->required()
+                                    ->valuesQuery(fn(Builder $query) => $query->where('user_id', auth()->user()->id)),
 //                                BelongsTo::make('Group','group',new TgGroupResource())
                             ])
                         ]),
