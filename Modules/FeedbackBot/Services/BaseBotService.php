@@ -47,6 +47,9 @@ class BaseBotService
 
         return $chat;
     }
+
+
+
     public function setLanguage($userId, $botId, $data)
     {
 
@@ -64,6 +67,14 @@ class BaseBotService
             ->where('bot_id', $botId)
             ->update(['language_code' => $data]);
     }
+
+
+    /***
+     * Function  languageCodeValidation
+     * @param $telegram_bot_id
+     * @param $requiredLanguageCode []
+     * @return  mixed
+     */
     public function languageCodeValidation($telegram_bot_id, $requiredLanguageCode)
     {
         $lastChat = Chat::where('telegram_bot_id', $telegram_bot_id)

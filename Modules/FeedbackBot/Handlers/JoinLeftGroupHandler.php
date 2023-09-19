@@ -3,6 +3,7 @@
 namespace Modules\FeedbackBot\Handlers;
 
 
+use Illuminate\Support\Facades\Log;
 use Modules\FeedbackBot\Services\BaseBotService;
 use SergiX44\Nutgram\Nutgram;
 
@@ -27,6 +28,14 @@ class JoinLeftGroupHandler
         $status = $bot->chatMember()->new_chat_member->status;
         $id = $bot->getData('botId');
 
+
+        Log::info('JoinLeftGroupHandler __invoke', [
+            'chatMemberId' => $chatMemberId,
+            'chatId' => $chatId,
+            'chatTitle' => $chatTitle,
+            'botId' => $botId,
+            'isGroup' => $isGroup,
+        ]);
 
         $baseBotService = new BaseBotService();
         if ($isGroup && $chatMemberId === $botId && $status === 'member') {

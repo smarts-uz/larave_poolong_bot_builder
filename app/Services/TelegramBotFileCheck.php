@@ -18,9 +18,9 @@ class TelegramBotFileCheck
                 $fileContents = public_path('storage/' . $post->media->file_name);
                 if (file_exists($fileContents)) {
                     return ['photo' , $fileContents];
-                } else {
-                    Debugbar::info('Telegram Bot File Not Found');
                 }
+
+                Debugbar::info('Telegram Bot File Not Found');
 
             } elseif (in_array($file_extension, ['mp4', 'avi', 'mov', 'mkv', 'wmv', 'mpeg', 'mpg', '3gp', 'webm',])) {
                 $fileContents = public_path('storage/' . $post->media->file_name);
